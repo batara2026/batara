@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Rihlah Akbar Jilid 2 - Kegiatan camping dan kajian ilmiah oleh Binjai Mengaji & LDA Al Madinah. 11-12 Juli 2026 di Pamah View, Langkat. Daftar sekarang!">
+    <meta name="keywords" content="Rihlah Akbar, Binjai Mengaji, LDA Al Madinah, Camping Islami, Kajian Ilmiah, Pamah View, Langkat">
+    <meta name="author" content="Binjai Mengaji">
+
+    <!-- Open Graph Meta -->
+    <meta property="og:title" content="Rihlah Akbar Jilid 2 - Binjai Mengaji">
+    <meta property="og:description" content="Merajut ukhuwah bersama peserta kajian dan asatidzah dari LDA Al Madinah di alam terbuka Pamah View. 11-12 Juli 2026.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="img/hero-bg.jpg">
+
+    <title>Rihlah - Binjai Mengaji</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="img/favicon.png">
+
+    <!-- Bootstrap 5 CSS (Local) -->
+    <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome 5 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Google Fonts (Amiri & Inter) -->
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital@1&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Alpine.js (Reactive Form & Calculator - Local) -->
+    <script defer src="lib/alpine/alpine.min.js"></script>
+</head>
+<body x-data="{
+    selectedPaket: '',
+    utamaDewasa: 1,
+    utamaAnak: 0,
+    utamaBalita: 0,
+    tambahanDewasa: 0,
+    tambahanAnak: 0,
+    catatan: '',
+    registrations: JSON.parse(localStorage.getItem('rihlah_registrations') || '[]'),
+    get paketPrice() {
+        if (this.selectedPaket === 'New Cabin') return 650000;
+        if (this.selectedPaket === 'Tenda Pondok') return 250000;
+        if (this.selectedPaket === 'Tenda Nyaman') return 250000;
+        if (this.selectedPaket === 'Tenda Sedang') return 200000;
+        return 0;
+    },
+    get tiketUtamaPrice() {
+        return (this.utamaDewasa * 20000) + (this.utamaAnak * 10000);
+    },
+    get tiketTambahanPrice() {
+        return (this.tambahanDewasa * 20000) + (this.tambahanAnak * 10000);
+    },
+    get totalCost() {
+        if (!this.selectedPaket) return 0;
+        return this.paketPrice + this.tiketUtamaPrice + this.tiketTambahanPrice;
+    },
+    exportJSON() {
+        if (this.registrations.length === 0) {
+            alert('Belum ada data pendaftaran yang tersimpan!');
+            return;
+        }
+        var dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(this.registrations, null, 2));
+        var downloadAnchor = document.createElement('a');
+        downloadAnchor.setAttribute('href', dataStr);
+        downloadAnchor.setAttribute('download', 'rihlah_pendaftaran_all.json');
+        document.body.appendChild(downloadAnchor);
+        downloadAnchor.click();
+        downloadAnchor.remove();
+    },
+    importJSON(event) {
+        var file = event.target.files[0];
+        if (!file) return;
+        var reader = new FileReader();
+        var self = this;
+        reader.onload = function(e) {
+            try {
+                var importedData = JSON.parse(e.target.result);
+                var newRegs = [];
+                if (Array.isArray(importedData)) {
+                    newRegs = importedData;
+                } else if (importedData && importedData.ticketCode) {
+                    newRegs = [importedData];
+                } else {
+                    throw new Error('Format file JSON pendaftaran tidak dikenali.');
+                }
+                
+                var currentRegs = JSON.parse(localStorage.getItem('rihlah_registrations') || '[]');
+                var addedCount = 0;
+                var updatedCount = 0;
+                
+                newRegs.forEach(function(newReg) {
+                    if (!newReg.ticketCode) return;
+                    var existingIndex = -1;
+                    for (var i = 0; i < currentRegs.length; i++) {
+                        if (currentRegs[i].ticketCode === newReg.ticketCode) {
+                            existingIndex = i;
+                            break;
+                        }
+                    }
+                    if (existingIndex !== -1) {
+                        currentRegs[existingIndex] = newReg;
+                        updatedCount++;
+                    } else {
+                        currentRegs.push(newReg);
+                        addedCount++;
+                    }
+                });
+                
+                self.registrations = currentRegs;
+                localStorage.setItem('rihlah_registrations', JSON.stringify(currentRegs));
+                alert('Berhasil mengimpor data! ' + addedCount + ' data baru ditambahkan, ' + updatedCount + ' data diperbarui.');
+            } catch (err) {
+                alert('Gagal mengimpor file JSON: ' + err.message);
+            }
+            event.target.value = '';
+        };
+        reader.readAsText(file);
+    },
+    clearRegistrations() {
+        if (confirm('Apakah Anda yakin ingin menghapus semua riwayat pendaftaran lokal? Tindakan ini tidak dapat dibatalkan.')) {
+            this.registrations = [];
+            localStorage.setItem('rihlah_registrations', '[]');
+        }
+    }
+}">
+
+    <!-- ============================================
+         NAVBAR
+    ============================================= -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow-sm" id="mainNavbar">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">
+                <img src="img/logo.png" alt="BM" height="36" class="d-inline-block align-text-top me-2" onerror="this.style.display='none'">
+                <span>BINJAI MENGAJI</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#tentang">Tentang</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#kuota">Kuota</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#jadwal">Jadwal</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#lokasi">Lokasi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#paket">Paket Biaya</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#konfirmasi">Konfirmasi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="denah.html"><i class="fa fa-map me-1"></i>Denah</a></li>
+                    <li class="nav-item"><a class="nav-link" href="tiket.html"><i class="fa fa-ticket-alt me-1"></i>Tiket</a></li>
+                    <li class="nav-item ms-2">
+                        <a class="btn btn-sm btn-custom text-white px-3" href="#pendaftaran" id="btnNavDaftar">Daftar Sekarang</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- ============================================
+         HERO SECTION
+    ============================================= -->
+    <header class="hero-section text-center text-md-start" id="hero">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <span class="badge bg-success mb-3 px-3 py-2">Terbuka Untuk Umum</span>
+                    <h1 class="display-4 fw-bold mb-3 text-white">
+                        Rihlah Akbar Jilid 2<br>
+                        <span style="color: var(--secondary-color);">1447H / 2026M</span>
+                    </h1>
+                    <p class="lead mb-4 text-light">
+                        Merajut simpul ukhuwah bersama para peserta kajian dari seluruh wilayah dan asatidzah dari
+                        <strong>Lajnah Dakwah Al-Madinah (LDA)</strong> di alam terbuka yang asri.
+                    </p>
+
+                    <!-- Info Boxes -->
+                    <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-md-start">
+                        <div class="hero-info-box">
+                            <i class="fa fa-calendar-alt text-warning mb-1"></i>
+                            <div class="small text-white-50">Tanggal</div>
+                            <div class="fw-bold text-white">11-12 Juli 2026</div>
+                        </div>
+                        <div class="hero-info-box">
+                            <i class="fa fa-map-marker-alt text-warning mb-1"></i>
+                            <div class="small text-white-50">Tempat</div>
+                            <div class="fw-bold text-white">Pamah View, Langkat</div>
+                        </div>
+                        <div class="hero-info-box">
+                            <i class="fa fa-campground text-warning mb-1"></i>
+                            <div class="small text-white-50">Sisa Kuota</div>
+                            <div class="fw-bold text-white">150 Tenda</div>
+                        </div>
+                    </div>
+
+                    <!-- CTA Buttons -->
+                    <div class="mt-4">
+                        <a href="#tentang" class="btn btn-outline-light rounded-pill px-4 py-2 me-2">Pelajari Acara</a>
+                        <a href="#pendaftaran" class="btn btn-custom rounded-pill px-4 py-2" id="btnHeroDaftar">Amankan Slot</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- ============================================
+         TENTANG EVENT
+    ============================================= -->
+    <section id="tentang" class="section-padding bg-light">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-title">Tentang Rihlah Akbar</h2>
+            </div>
+            <div class="row align-items-center mt-5 scroll-animate">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <img src="img/about.jpg" alt="Suasana Camping Rihlah" class="img-fluid rounded-3 shadow" loading="lazy">
+                </div>
+                <div class="col-lg-6 ps-lg-5">
+                    <h3 class="fw-bold" style="color: var(--primary-color);">Menjalin Ukhuwah Di Tengah Keindahan Alam</h3>
+                    <p class="mt-3 text-muted" style="font-size: 1rem;">
+                        Kegiatan tahunan yang bertujuan mempererat tali silaturahmi antar penuntut ilmu.
+                        Mengombinasikan atmosfer kajian ilmiah yang sarat ilmu dinul Islam dengan kesegaran
+                        panorama pegunungan Pamah Simelir setinggi ±900 mdpl.
+                    </p>
+                    <div class="row mt-4">
+                        <div class="col-sm-6 mb-3">
+                            <div class="d-flex align-items-center">
+                                <i class="fa fa-check-circle fa-2x me-3 text-success"></i>
+                                <div>
+                                    <h5 class="mb-0 fw-bold">Kajian Ilmiah</h5>
+                                    <small class="text-muted">Ba'da Maghrib & Subuh</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 mb-3">
+                            <div class="d-flex align-items-center">
+                                <i class="fa fa-check-circle fa-2x me-3 text-success"></i>
+                                <div>
+                                    <h5 class="mb-0 fw-bold">Ramah Keluarga</h5>
+                                    <small class="text-muted">Area aman bermain anak</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ============================================
+         SISA KUOTA TENDA
+    ============================================= -->
+    <section id="kuota" class="section-padding">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-title">Status Kuota Pendaftaran</h2>
+                <p class="text-muted">Pantau ketersediaan slot tenda secara transparan. Segera amankan sebelum habis!</p>
+            </div>
+
+            <div class="row g-4 mt-4 justify-content-center scroll-animate">
+
+                <!-- Total Kuota Overview -->
+                <div class="col-lg-10">
+                    <div class="card shadow-sm border-0 rounded-3 p-4 bg-white">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <div>
+                                <h5 class="fw-bold mb-0" style="color: var(--primary-color);"><i class="fa fa-campground me-2"></i>Total Kapasitas Tenda</h5>
+                                <small class="text-muted">Tersedia 4 jenis paket tenda di seluruh area Pamah View</small>
+                            </div>
+                            <div class="text-end">
+                                <span class="badge bg-success px-3 py-2 fs-6">Pendaftaran Dibuka</span>
+                            </div>
+                        </div>
+                        <div class="progress mb-2" style="height: 28px; border-radius: 14px;">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%; background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));" aria-valuenow="0" aria-valuemin="0" aria-valuemax="150">
+                                <span class="fw-bold">0 / 150 Tenda Terisi</span>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between small text-muted mt-1">
+                            <span>0 tenda terdaftar</span>
+                            <span>150 slot tersedia</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kuota Per Paket (4 Paket) -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="card border-0 shadow-sm rounded-3 p-4 text-center kuota-card">
+                        <div class="kuota-icon-wrap mx-auto mb-3">
+                            <i class="fa fa-home fa-2x" style="color: var(--secondary-color);"></i>
+                        </div>
+                        <h6 class="fw-bold text-muted text-uppercase">New Cabin</h6>
+                        <h3 class="fw-bold my-2" style="color: var(--primary-color);">20 <small class="fs-6 fw-normal text-muted">Slot</small></h3>
+                        <div class="progress mb-2" style="height: 10px; border-radius: 5px;">
+                            <div class="progress-bar" role="progressbar" style="width: 0%; background-color: var(--secondary-color);" aria-valuenow="0" aria-valuemin="0" aria-valuemax="20"></div>
+                        </div>
+                        <small class="text-success fw-bold"><i class="fa fa-check-circle me-1"></i>Tersedia Penuh</small>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card border-0 shadow-sm rounded-3 p-4 text-center kuota-card">
+                        <div class="kuota-icon-wrap mx-auto mb-3">
+                            <i class="fa fa-campground fa-2x text-success"></i>
+                        </div>
+                        <h6 class="fw-bold text-muted text-uppercase">Tenda Pondok</h6>
+                        <h3 class="fw-bold my-2" style="color: var(--primary-color);">40 <small class="fs-6 fw-normal text-muted">Slot</small></h3>
+                        <div class="progress mb-2" style="height: 10px; border-radius: 5px;">
+                            <div class="progress-bar" role="progressbar" style="width: 0%; background: linear-gradient(90deg, var(--primary-color), var(--primary-light));" aria-valuenow="0" aria-valuemin="0" aria-valuemax="40"></div>
+                        </div>
+                        <small class="text-success fw-bold"><i class="fa fa-check-circle me-1"></i>Tersedia Penuh</small>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card border-0 shadow-sm rounded-3 p-4 text-center kuota-card">
+                        <div class="kuota-icon-wrap mx-auto mb-3">
+                            <i class="fa fa-bed fa-2x text-info"></i>
+                        </div>
+                        <h6 class="fw-bold text-muted text-uppercase">Tenda Nyaman</h6>
+                        <h3 class="fw-bold my-2" style="color: var(--primary-color);">50 <small class="fs-6 fw-normal text-muted">Slot</small></h3>
+                        <div class="progress mb-2" style="height: 10px; border-radius: 5px;">
+                            <div class="progress-bar" role="progressbar" style="width: 0%; background: linear-gradient(90deg, var(--secondary-color), #17a2b8);" aria-valuenow="0" aria-valuemin="0" aria-valuemax="50"></div>
+                        </div>
+                        <small class="text-success fw-bold"><i class="fa fa-check-circle me-1"></i>Tersedia Penuh</small>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card border-0 shadow-sm rounded-3 p-4 text-center kuota-card">
+                        <div class="kuota-icon-wrap mx-auto mb-3">
+                            <i class="fa fa-map-pin fa-2x text-warning"></i>
+                        </div>
+                        <h6 class="fw-bold text-muted text-uppercase">Tenda Sedang</h6>
+                        <h3 class="fw-bold my-2" style="color: var(--primary-color);">40 <small class="fs-6 fw-normal text-muted">Slot</small></h3>
+                        <div class="progress mb-2" style="height: 10px; border-radius: 5px;">
+                            <div class="progress-bar" role="progressbar" style="width: 0%; background: linear-gradient(90deg, #f0a500, var(--secondary-color));" aria-valuenow="0" aria-valuemin="0" aria-valuemax="40"></div>
+                        </div>
+                        <small class="text-success fw-bold"><i class="fa fa-check-circle me-1"></i>Tersedia Penuh</small>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="text-center mt-4">
+                <p class="small text-muted"><i class="fa fa-info-circle me-1"></i> Data kuota diperbarui kali ada konfirmasi pembayaran masuk.</p>
+                <a href="#pendaftaran" class="btn btn-custom rounded-pill px-4 mt-2">Daftar Sekarang Sebelum Penuh</a>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ============================================
+         QUOTE / AYAT SECTION
+    ============================================= -->
+    <section class="py-5 text-center text-white quote-section">
+        <div class="container py-4">
+            <h3 class="arabic-font fs-1 mb-3">وَالْأَرْضَ مَدَدْنَاهَا وَأَلْقَيْنَا فِيهَا رَوَاسِيَ وَأَنْبَتْنَا فِيهَا مِنْ كُلِّ شَيْءٍ مَوْزُونٍ</h3>
+            <p class="lead fst-italic">
+                "Dan Kami telah menghamparkan bumi dan menjadikan padanya gunung-gunung dan Kami tumbuhkan padanya segala sesuatu menurut ukuran."
+            </p>
+            <span class="badge bg-secondary">(QS. Al-Hijr : 19)</span>
+        </div>
+    </section>
+
+
+    <!-- ============================================
+         JADWAL EVENT (Tabbed)
+    ============================================= -->
+    <section id="jadwal" class="section-padding">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-title">Agenda Kegiatan</h2>
+                <p class="text-muted">Rangkaian acara rihlah selama 2 hari berturut-turut</p>
+            </div>
+
+            <div class="row justify-content-center mt-4 scroll-animate">
+                <div class="col-md-8">
+                    <!-- Nav Tabs -->
+                    <ul class="nav nav-pills justify-content-center mb-4" id="pills-tab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active px-4 py-2 mx-2 rounded-pill shadow-sm" id="pills-hari1-tab" data-bs-toggle="pill" data-bs-target="#pills-hari1" type="button" role="tab" aria-controls="pills-hari1" aria-selected="true">
+                                Hari ke-1 (Sabtu, 11 Juli 2026)
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link px-4 py-2 mx-2 rounded-pill shadow-sm" id="pills-hari2-tab" data-bs-toggle="pill" data-bs-target="#pills-hari2" type="button" role="tab" aria-controls="pills-hari2" aria-selected="false">
+                                Hari ke-2 (Ahad, 12 Juli 2026)
+                            </button>
+                        </li>
+                    </ul>
+
+                    <!-- Tab Contents -->
+                    <div class="tab-content border p-4 rounded-3 shadow-sm bg-light" id="pills-tabContent">
+                        <!-- Hari 1 -->
+                        <div class="tab-pane fade show active" id="pills-hari1" role="tabpanel" aria-labelledby="pills-hari1-tab">
+                            <div class="schedule-item">
+                                <div class="badge bg-primary p-2 me-3">15:00 - 18:00</div>
+                                <div>
+                                    <h5 class="fw-bold mb-1">Registrasi Ulang Peserta</h5>
+                                    <p class="text-muted mb-0">Kedatangan di Pamah View, pembagian area kapling tenda & penempatan logistik awal.</p>
+                                </div>
+                            </div>
+                            <div class="schedule-item">
+                                <div class="badge bg-primary p-2 me-3">19:30 - 20:30</div>
+                                <div>
+                                    <h5 class="fw-bold mb-1">Kajian Tematik Islamiyah</h5>
+                                    <p class="text-muted mb-0">Disampaikan oleh Asatidzah dari Lajnah Dakwah Al-Madinah (LDA).</p>
+                                </div>
+                            </div>
+                            <div class="schedule-item">
+                                <div class="badge bg-primary p-2 me-3">21:00 - Selesai</div>
+                                <div>
+                                    <h5 class="fw-bold mb-1">Ngopi (Ngobrol Perkara Iman) & Ramah Tamah</h5>
+                                    <p class="text-muted mb-0">Sesi santai diskusi iman di sekitar api unggun dan istirahat malam.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Hari 2 -->
+                        <div class="tab-pane fade" id="pills-hari2" role="tabpanel" aria-labelledby="pills-hari2-tab">
+                            <div class="schedule-item">
+                                <div class="badge bg-primary p-2 me-3">05:30 - 07:00</div>
+                                <div>
+                                    <h5 class="fw-bold mb-1">Kajian Kitab Ba'da Subuh</h5>
+                                    <p class="text-muted mb-0">Bedah kitab tafsir/akidah bersama jajaran asatidzah di tengah embun pagi.</p>
+                                </div>
+                            </div>
+                            <div class="schedule-item">
+                                <div class="badge bg-primary p-2 me-3">08:00 - 09:00</div>
+                                <div>
+                                    <h5 class="fw-bold mb-1">Sarapan Bersama & Istirahat</h5>
+                                    <p class="text-muted mb-0">Menikmati hidangan pagi bersama seluruh peserta ikhwan dan akhwat (area terpisah).</p>
+                                </div>
+                            </div>
+                            <div class="schedule-item">
+                                <div class="badge bg-primary p-2 me-3">09:00 - 11:00</div>
+                                <div>
+                                    <h5 class="fw-bold mb-1">Outbound & Penutupan Formil</h5>
+                                    <p class="text-muted mb-0">Games edukatif kerja sama tim, sesi foto bersama, persiapan pulang mandiri.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ============================================
+         LOKASI & GOOGLE MAP
+    ============================================= -->
+    <section id="lokasi" class="section-padding bg-light">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-title">Lokasi Pelaksanaan</h2>
+            </div>
+            <div class="row mt-5 shadow rounded-3 overflow-hidden bg-white g-0 scroll-animate map-container">
+                <div class="col-lg-6">
+                    <div class="ratio ratio-4x3 h-100">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15933.079173488866!2d98.3605745395508!3d3.283161899999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3030e5be22788bc9%3A0x8bfcc3d19ea0ba5a!2sPamah%20View!5e0!3m2!1sid!2sid!4v1779734114808!5m2!1sid!2sid"
+                            allowfullscreen=""
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"
+                            title="Peta Lokasi Pamah View">
+                        </iframe>
+                    </div>
+                </div>
+                <div class="col-lg-6 p-4 p-md-5 d-flex flex-column justify-content-center">
+                    <h4 class="fw-bold text-success mb-3">
+                        <i class="fa fa-map-marked-alt me-2"></i>Pamah View, Sei Bingai
+                    </h4>
+                    <p class="text-muted">
+                        Desa Telagah, Kecamatan Sei Bingai, Kabupaten Langkat, Sumatera Utara.
+                    </p>
+                    <p class="small text-secondary">
+                        Berjarak sekitar 40 kilometer dari pusat Kota Binjai (estimasi waktu berkendara 1 hingga 1,5 jam).
+                        Jalur jalan beraspal baik dengan pemandangan pegunungan hijau yang asri dan udara sejuk pegunungan yang menenangkan.
+                    </p>
+                    <div class="mt-3">
+                        <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-success rounded-pill px-4" id="btnMapDirection">
+                            <i class="fa fa-directions me-1"></i> Buka Petunjuk Jalan
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ============================================
+         GALERI TEMPAT
+    ============================================= -->
+    <section id="galeri" class="section-padding">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-title">Galeri Pamah View</h2>
+                <p class="text-muted">Gambaran keasrian area perkemahan rihlah</p>
+            </div>
+            <div class="row g-3 mt-4 scroll-animate">
+                <div class="col-6 col-sm-6 col-md-4">
+                    <img src="img/gallery/gallery-1.jpg" class="w-100 gallery-img" alt="Area Tenda" loading="lazy">
+                </div>
+                <div class="col-6 col-sm-6 col-md-4">
+                    <img src="img/gallery/gallery-2.jpg" class="w-100 gallery-img" alt="Suasana Camping Malam" loading="lazy">
+                </div>
+                <div class="col-6 col-sm-6 col-md-4">
+                    <img src="img/gallery/gallery-3.jpg" class="w-100 gallery-img" alt="Fasilitas Luar" loading="lazy">
+                </div>
+                <div class="col-6 col-sm-6 col-md-4">
+                    <img src="img/gallery/gallery-4.jpg" class="w-100 gallery-img" alt="Pemandangan Pagi" loading="lazy">
+                </div>
+                <div class="col-6 col-sm-6 col-md-4">
+                    <img src="img/gallery/gallery-5.jpg" class="w-100 gallery-img" alt="Pegunungan Langkat" loading="lazy">
+                </div>
+                <div class="col-6 col-sm-6 col-md-4">
+                    <img src="img/gallery/gallery-6.jpg" class="w-100 gallery-img" alt="Kegiatan Bersama" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox Overlay -->
+    <div class="lightbox-overlay" id="lightboxOverlay">
+        <button class="lightbox-close" id="lightboxClose" aria-label="Tutup Lightbox">&times;</button>
+        <img src="" alt="Lightbox Preview" id="lightboxImg">
+    </div>
+
+
+    <!-- ============================================
+         FASILITAS LAINNYA
+    ============================================= -->
+    <section id="fasilitas" class="section-padding bg-light">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-title">Fasilitas Area Pamah View</h2>
+                <p class="text-muted">Berbagai kelengkapan sarana & prasarana penunjang kenyamanan selama rihlah berlangsung</p>
+            </div>
+
+            <div class="row g-4 mt-4 scroll-animate">
+
+                <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                    <div class="card h-100 border-0 shadow-sm rounded-3 p-3 p-md-4 text-center hover-card fasilitas-card">
+                        <div class="fasilitas-icon mx-auto mb-3">
+                            <i class="fa fa-restroom fa-2x"></i>
+                        </div>
+                        <h6 class="fw-bold">Toilet & Kamar Mandi</h6>
+                        <small class="text-muted">Tersedia toilet bersih dengan air mengalir dari sumber mata air pegunungan</small>
+                    </div>
+                </div>
+
+                <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                    <div class="card h-100 border-0 shadow-sm rounded-3 p-3 p-md-4 text-center hover-card fasilitas-card">
+                        <div class="fasilitas-icon mx-auto mb-3">
+                            <i class="fa fa-mosque fa-2x"></i>
+                        </div>
+                        <h6 class="fw-bold">Area Musholla</h6>
+                        <small class="text-muted">Tempat ibadah sholat berjamaah dengan area terpisah ikhwan dan akhwat</small>
+                    </div>
+                </div>
+
+                <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                    <div class="card h-100 border-0 shadow-sm rounded-3 p-3 p-md-4 text-center hover-card fasilitas-card">
+                        <div class="fasilitas-icon mx-auto mb-3">
+                            <i class="fa fa-parking fa-2x"></i>
+                        </div>
+                        <h6 class="fw-bold">Lahan Parkir Luas</h6>
+                        <small class="text-muted">Area parkir terbuka untuk roda dua maupun kendaraan roda empat</small>
+                    </div>
+                </div>
+
+                <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                    <div class="card h-100 border-0 shadow-sm rounded-3 p-3 p-md-4 text-center hover-card fasilitas-card">
+                        <div class="fasilitas-icon mx-auto mb-3">
+                            <i class="fa fa-utensils fa-2x"></i>
+                        </div>
+                        <h6 class="fw-bold">Dapur & Konsumsi</h6>
+                        <small class="text-muted">Paket makan malam dan sarapan pagi sudah termasuk dalam semua jenis paket</small>
+                    </div>
+                </div>
+
+                <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                    <div class="card h-100 border-0 shadow-sm rounded-3 p-3 p-md-4 text-center hover-card fasilitas-card">
+                        <div class="fasilitas-icon mx-auto mb-3">
+                            <i class="fa fa-fire fa-2x"></i>
+                        </div>
+                        <h6 class="fw-bold">Area Api Unggun</h6>
+                        <small class="text-muted">Spot api unggun komunal untuk sesi diskusi malam dan ngopi bersama</small>
+                    </div>
+                </div>
+
+                <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                    <div class="card h-100 border-0 shadow-sm rounded-3 p-3 p-md-4 text-center hover-card fasilitas-card">
+                        <div class="fasilitas-icon mx-auto mb-3">
+                            <i class="fa fa-child fa-2x"></i>
+                        </div>
+                        <h6 class="fw-bold">Area Bermain Anak</h6>
+                        <small class="text-muted">Zona aman untuk anak-anak bermain di area terbuka yang diawasi bersama</small>
+                    </div>
+                </div>
+
+                <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                    <div class="card h-100 border-0 shadow-sm rounded-3 p-3 p-md-4 text-center hover-card fasilitas-card">
+                        <div class="fasilitas-icon mx-auto mb-3">
+                            <i class="fa fa-bolt fa-2x"></i>
+                        </div>
+                        <h6 class="fw-bold">Sumber Listrik</h6>
+                        <small class="text-muted">Akses colokan terbatas untuk pengisian daya perangkat darurat peserta</small>
+                    </div>
+                </div>
+
+                <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                    <div class="card h-100 border-0 shadow-sm rounded-3 p-3 p-md-4 text-center hover-card fasilitas-card">
+                        <div class="fasilitas-icon mx-auto mb-3">
+                            <i class="fa fa-first-aid fa-2x"></i>
+                        </div>
+                        <h6 class="fw-bold">Pos P3K Darurat</h6>
+                        <small class="text-muted">Kotak pertolongan pertama tersedia di area sekretariat panitia utama</small>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ============================================
+         4 JENIS PAKET BIAYA
+    ============================================= -->
+    <section id="paket" class="section-padding bg-light">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-title">Pilihan Paket Peserta</h2>
+                <p class="text-muted">Biaya mencakup operasional, logistik dan perlengkapan rihlah.</p>
+            </div>
+            <div class="row g-4 mt-4 justify-content-center scroll-animate">
+
+                <!-- Paket 1: New Cabin (PREMIUM) -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="card h-100 shadow-sm rounded-3 hover-card p-4 bg-white text-center paket-card border-warning" style="border-width: 2px;">
+                        <span class="paket-badge badge rounded-pill" style="background: linear-gradient(135deg, #f0a500, #e67e22);">Premium</span>
+                        <div class="mt-2 mb-2">
+                            <i class="fa fa-home fa-3x" style="color: var(--secondary-color);"></i>
+                        </div>
+                        <h5 class="fw-bold" style="color: var(--secondary-color);">NEW CABIN</h5>
+                        <h2 class="my-3 fw-bold" style="color: var(--primary-color);">Rp 650.000 <span class="fs-6 fw-normal text-muted">/ Unit</span></h2>
+                        <hr>
+                        <ul class="list-unstyled text-start mb-4">
+                            <li class="mb-2"><i class="fa fa-check text-success me-2"></i> Kapasitas Max 4 Orang / Extra Bed 70rb</li>
+                            <li class="mb-2"><i class="fa fa-check text-success me-2"></i> Alat Panggangan, Teko Listrik</li>
+                            <li class="mb-2"><i class="fa fa-check text-success me-2"></i> Kamar Mandi, Parkir Khusus, Kipas Angin</li>
+                            <li class="mb-2"><i class="fa fa-check text-success me-2"></i> Water Heater, Sabun, Handuk, Sampo, Sikat/pasta Gigi </li>
+                            <li class="mb-2"><i class="fa fa-check text-success me-2"></i> Kursi Teras, Air Mineral, Kopi, Teh, Gula</li>
+                        </ul>
+                        <a href="#pendaftaran" @click="selectedPaket = 'New Cabin'" class="btn btn-custom rounded-pill mt-auto" style="background: linear-gradient(135deg, #f0a500, #e67e22); color: white; border: none; box-shadow: 0 4px 15px rgba(240, 165, 0, 0.35);" id="btnPilihPaket1">Pilih Paket</a>
+                    </div>
+                </div>
+
+                <!-- Paket 2: Tenda Pondok (FAVORIT) -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="card h-100 shadow-sm rounded-3 hover-card p-4 bg-white text-center paket-card border-success" style="border-width: 2px;">
+                        <span class="paket-badge badge rounded-pill bg-success">Terfavorit</span>
+                        <div class="mt-2 mb-2">
+                            <i class="fa fa-campground fa-3x text-success"></i>
+                        </div>
+                        <h5 class="fw-bold text-success">TENDA PONDOK</h5>
+                        <h2 class="my-3 text-success fw-bold">Rp 250.000 <span class="fs-6 fw-normal text-muted">/ Tenda</span></h2>
+                        <hr>
+                        <ul class="list-unstyled text-start mb-4">
+                            <li class="mb-2"><i class="fa fa-check text-success me-2"></i> Tipe Pondok + Tenda</li>
+                            <li class="mb-2"><i class="fa fa-check text-success me-2"></i> Kapasitas 3-4 Orang</li>
+                            <li class="mb-2"><i class="fa fa-check text-success me-2"></i> Tilam Busa</li>
+                            <li class="mb-2"><i class="fa fa-check text-success me-2"></i> Selimut & Bantal Busa</li>
+                            <li class="mb-2"><i class="fa fa-check text-success me-2"></i> Lampu Listrik</li>
+                            <li class="mb-2"><i class="fa fa-check text-success me-2"></i> Colokan Listrik</li>
+                        </ul>
+                        <a href="#pendaftaran" @click="selectedPaket = 'Tenda Pondok'" class="btn btn-custom rounded-pill mt-auto" id="btnPilihPaket2">Pilih Paket</a>
+                    </div>
+                </div>
+
+                <!-- Paket 3: Tenda Nyaman -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="card h-100 shadow-sm rounded-3 hover-card p-4 bg-white text-center paket-card">
+                        <div class="mt-2 mb-2">
+                            <i class="fa fa-bed fa-3x text-info"></i>
+                        </div>
+                        <h5 class="fw-bold text-muted">TENDA NYAMAN</h5>
+                        <h2 class="my-3 text-success fw-bold">Rp 250.000 <span class="fs-6 fw-normal text-muted">/ Tenda</span></h2>
+                        <hr>
+                        <ul class="list-unstyled text-start mb-4">
+                            <li class="mb-2"><i class="fa fa-check text-success me-2"></i> Kapasitas 3-4 Orang</li>
+                            <li class="mb-2"><i class="fa fa-check text-success me-2"></i> Tilam Busa</li>
+                            <li class="mb-2"><i class="fa fa-check text-success me-2"></i> Selimut Bantal Busa</li>
+                            <li class="mb-2"><i class="fa fa-check text-success me-2"></i> 1 Lampu Camp & Baterai</li>
+                        </ul>
+                        <a href="#pendaftaran" @click="selectedPaket = 'Tenda Nyaman'" class="btn btn-outline-success rounded-pill mt-auto" id="btnPilihPaket3">Pilih Paket</a>
+                    </div>
+                </div>
+
+                <!-- Paket 4: Tenda Sedang -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="card h-100 shadow-sm rounded-3 hover-card p-4 bg-white text-center paket-card">
+                        <div class="mt-2 mb-2">
+                            <i class="fa fa-campground fa-3x text-warning"></i>
+                        </div>
+                        <h5 class="fw-bold text-muted">TENDA SEDANG</h5>
+                        <h2 class="my-3 text-success fw-bold">Rp 200.000 <span class="fs-6 fw-normal text-muted">/ Tenda</span></h2>
+                        <hr>
+                        <ul class="list-unstyled text-start mb-4">
+                            <li class="mb-2"><i class="fa fa-check text-success me-2"></i> Kapasitas 3-4 Orang</li>
+                            <li class="mb-2"><i class="fa fa-check text-success me-2"></i> 3 Matras</li>
+                            <li class="mb-2"><i class="fa fa-check text-success me-2"></i> 1 Lampu Camp & Baterai</li>
+                        </ul>
+                        <a href="#pendaftaran" @click="selectedPaket = 'Tenda Sedang'" class="btn btn-outline-success rounded-pill mt-auto" id="btnPilihPaket4">Pilih Paket</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ============================================
+         FORM PENDAFTARAN (Interactive + Auto Calculation)
+    ============================================= -->
+    <section id="pendaftaran" class="section-padding">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card shadow-lg p-3 p-sm-4 p-md-5 form-card bg-white" style="border-radius: 20px;">
+                        <div class="text-center mb-4">
+                            <h3 class="fw-bold text-success"><i class="fab fa-wpforms me-2"></i>Registrasi Online</h3>
+                            <p class="text-muted small">
+                                Isi data di bawah dengan benar. Sistem otomatis menghitung total biaya pendaftaran
+                                dan menyusun pesan WhatsApp konfirmasi.
+                            </p>
+                        </div>
+
+                        <form id="rihlahRegisterForm" onsubmit="event.preventDefault();">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="formNama" class="form-label fw-bold"><i class="fa fa-user text-success me-1"></i> Nama Lengkap</label>
+                                    <input type="text" id="formNama" class="form-control" placeholder="Contoh: Muhammad Abdullah" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="formWA" class="form-label fw-bold"><i class="fab fa-whatsapp text-success me-1"></i> Nomor HP / WhatsApp</label>
+                                    <input type="tel" id="formWA" class="form-control" placeholder="Contoh: 081234567890" required>
+                                </div>
+                                <div class="col-12">
+                                    <label for="formPaket" class="form-label fw-bold"><i class="fa fa-campground text-success me-1"></i> Pilih Kategori Paket</label>
+                                    <select id="formPaket" class="form-select" x-model="selectedPaket" required>
+                                        <option value="">-- Silakan Pilih Paket --</option>
+                                        <option value="New Cabin">New Cabin (Rp 650.000 / Unit)</option>
+                                        <option value="Tenda Pondok">Tenda Pondok (Rp 250.000 / Tenda)</option>
+                                        <option value="Tenda Nyaman">Tenda Nyaman (Rp 250.000 / Tenda)</option>
+                                        <option value="Tenda Sedang">Tenda Sedang (Rp 200.000 / Tenda)</option>
+                                    </select>
+                                </div>
+                                
+                                <!-- Jumlah Orang Utama -->
+                                <div class="col-md-6">
+                                    <div class="p-3 p-md-4 border h-100" style="background: rgba(74,124,89,0.02); border-color: rgba(74,124,89,0.15) !important; border-radius: 16px;">
+                                        <h6 class="fw-bold text-success mb-3"><i class="fa fa-users me-2"></i>Jumlah Orang Utama</h6>
+                                        <div class="row g-2">
+                                            <div class="col-4 text-center">
+                                                <label class="form-label small mb-1 fw-bold">Dewasa</label>
+                                                <div class="input-group input-group-sm">
+                                                    <button class="btn btn-outline-success" type="button" @click="if(utamaDewasa > 1) utamaDewasa--">-</button>
+                                                    <input type="number" id="formUtamaDewasa" class="form-control text-center" x-model.number="utamaDewasa" min="1" max="6" readonly style="background:#fff;">
+                                                    <button class="btn btn-outline-success" type="button" @click="if(utamaDewasa < 6) utamaDewasa++">+</button>
+                                                </div>
+                                                <span class="d-block text-center mt-1 text-muted" style="font-size:0.7rem;">@20k</span>
+                                            </div>
+                                            <div class="col-4 text-center">
+                                                <label class="form-label small mb-1 fw-bold">Anak (6-10th)</label>
+                                                <div class="input-group input-group-sm">
+                                                    <button class="btn btn-outline-success" type="button" @click="if(utamaAnak > 0) utamaAnak--">-</button>
+                                                    <input type="number" id="formUtamaAnak" class="form-control text-center" x-model.number="utamaAnak" min="0" max="8" readonly style="background:#fff;">
+                                                    <button class="btn btn-outline-success" type="button" @click="if(utamaAnak < 8) utamaAnak++">+</button>
+                                                </div>
+                                                <span class="d-block text-center mt-1 text-muted" style="font-size:0.7rem;">@10k</span>
+                                            </div>
+                                            <div class="col-4 text-center">
+                                                <label class="form-label small mb-1 fw-bold">Balita (&lt;6th)</label>
+                                                <div class="input-group input-group-sm">
+                                                    <button class="btn btn-outline-success" type="button" @click="if(utamaBalita > 0) utamaBalita--">-</button>
+                                                    <input type="number" id="formUtamaBalita" class="form-control text-center" x-model.number="utamaBalita" min="0" max="4" readonly style="background:#fff;">
+                                                    <button class="btn btn-outline-success" type="button" @click="if(utamaBalita < 4) utamaBalita++">+</button>
+                                                </div>
+                                                <span class="d-block text-center mt-1 text-success" style="font-size:0.7rem; font-weight: 600;">Gratis</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Tambahan Peserta -->
+                                <div class="col-md-6">
+                                    <div class="p-3 p-md-4 border h-100" style="background: rgba(200,132,58,0.02); border-color: rgba(200,132,58,0.2) !important; border-radius: 16px;">
+                                        <h6 class="fw-bold text-warning mb-3" style="color: #c8a951 !important;"><i class="fa fa-user-plus me-2"></i>Tambahan Peserta</h6>
+                                        <div class="row g-2">
+                                            <div class="col-6 text-center">
+                                                <label class="form-label small mb-1 fw-bold">Dewasa</label>
+                                                <div class="input-group input-group-sm">
+                                                    <button class="btn btn-outline-success" type="button" @click="if(tambahanDewasa > 0) tambahanDewasa--">-</button>
+                                                    <input type="number" id="formTambahanDewasa" class="form-control text-center" x-model.number="tambahanDewasa" min="0" max="6" readonly style="background:#fff;">
+                                                    <button class="btn btn-outline-success" type="button" @click="if(tambahanDewasa < 6) tambahanDewasa++">+</button>
+                                                </div>
+                                                <span class="d-block text-center mt-1 text-muted" style="font-size:0.7rem;">@20k</span>
+                                            </div>
+                                            <div class="col-6 text-center">
+                                                <label class="form-label small mb-1 fw-bold">Anak (6-10th)</label>
+                                                <div class="input-group input-group-sm">
+                                                    <button class="btn btn-outline-success" type="button" @click="if(tambahanAnak > 0) tambahanAnak--">-</button>
+                                                    <input type="number" id="formTambahanAnak" class="form-control text-center" x-model.number="tambahanAnak" min="0" max="8" readonly style="background:#fff;">
+                                                    <button class="btn btn-outline-success" type="button" @click="if(tambahanAnak < 8) tambahanAnak++">+</button>
+                                                </div>
+                                                <span class="d-block text-center mt-1 text-muted" style="font-size:0.7rem;">@10k</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <label for="formCatatan" class="form-label fw-bold"><i class="fa fa-comment-dots text-success me-1"></i> Catatan Pendukung</label>
+                                    <textarea id="formCatatan" class="form-control" rows="3" placeholder="Contoh: Request informasi tambahan lainnya..."></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Real-time Cost Calculator Display -->
+                            <div class="cost-display my-4 p-4 rounded-3 border shadow-sm" x-show="selectedPaket" style="background: #fdfdfd; border-color: rgba(26,92,56,0.1) !important;">
+                                <h5 class="fw-bold text-success mb-3"><i class="fa fa-receipt me-2"></i>Rincian Estimasi Biaya</h5>
+                                
+                                <div class="d-flex justify-content-between mb-2 pb-2 border-bottom" style="border-bottom-style: dashed !important; border-bottom-color: #ddd !important;">
+                                    <span class="text-muted">Harga Paket (<span class="fw-semibold" x-text="selectedPaket"></span>)</span>
+                                    <span class="fw-bold" x-text="'Rp ' + paketPrice.toLocaleString('id-ID')">Rp 0</span>
+                                </div>
+                                
+                                <div class="d-flex justify-content-between mb-2 pb-2 border-bottom" style="border-bottom-style: dashed !important; border-bottom-color: #ddd !important;" x-show="tiketUtamaPrice > 0">
+                                    <span class="text-muted">Tiket Masuk Utama (<span x-text="utamaDewasa"></span> Dewasa, <span x-text="utamaAnak"></span> Anak)</span>
+                                    <span class="fw-bold" x-text="'Rp ' + tiketUtamaPrice.toLocaleString('id-ID')">Rp 0</span>
+                                </div>
+
+                                <div class="d-flex justify-content-between mb-2 pb-2 border-bottom" style="border-bottom-style: dashed !important; border-bottom-color: #ddd !important;" x-show="tiketTambahanPrice > 0">
+                                    <span class="text-muted">Tiket Masuk Tambahan (<span x-text="tambahanDewasa"></span> Dewasa, <span x-text="tambahanAnak"></span> Anak)</span>
+                                    <span class="fw-bold" x-text="'Rp ' + tiketTambahanPrice.toLocaleString('id-ID')">Rp 0</span>
+                                </div>
+                                
+                                <div class="d-flex justify-content-between align-items-center mt-3 pt-2">
+                                    <div>
+                                        <span class="text-muted d-block small fw-bold">TOTAL ESTIMASI BIAYA:</span>
+                                        <small class="text-muted" style="font-size: 0.72rem;">*Sistem otomatis membuat nomor tiket setelah dikirim</small>
+                                    </div>
+                                    <h3 class="fw-bold text-success mb-0 font-monospace" style="font-size: 1.7rem;" x-text="'Rp ' + totalCost.toLocaleString('id-ID')">Rp 0</h3>
+                                </div>
+                            </div>
+
+                            <div class="alert alert-info text-center py-2 mb-4 small text-muted">
+                                <i class="fa fa-info-circle me-1"></i>
+                                Pembayaran dilakukan via <strong>Transfer Bank Muamalat</strong>.
+                                No. Rek: <strong>4670016812</strong> a.n. Raden Arie Sandriawan Wijaya
+                            </div>
+
+                            <button type="button" id="btnSubmitWA" class="btn btn-custom w-100 py-3 rounded-3 fs-5">
+                                <i class="fab fa-whatsapp me-2"></i> Ajukan Pendaftaran
+                            </button>
+                    </div>
+
+                    <!-- Riwayat Registrasi Lokal (Tersimpan) -->
+                    <div class="card shadow p-4 rounded-3 bg-white mt-4 scroll-animate" x-show="registrations.length > 0">
+                        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3 pb-3 border-bottom">
+                            <div class="d-flex align-items-center gap-3">
+                                <div style="width:40px; height:40px; background:linear-gradient(135deg,#c8a951,#e6c367); border-radius:10px; display:flex; align-items:center; justify-content:center;">
+                                    <i class="fa fa-folder-open text-white"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-bold mb-0 text-success">Riwayat Pendaftaran Lokal</h5>
+                                    <p class="text-muted mb-0 small" style="font-size:0.78rem;">Data tersimpan secara aman dalam format JSON di browser Anda</p>
+                                </div>
+                            </div>
+                            <div class="d-flex gap-2 flex-wrap">
+                                <button type="button" @click="$refs.importFileInput.click()" class="btn btn-sm btn-outline-success rounded-pill px-3 py-2 font-semibold">
+                                    <i class="fa fa-file-upload me-1"></i> Impor Riwayat (JSON)
+                                </button>
+                                <input type="file" x-ref="importFileInput" @change="importJSON($event)" accept=".json" style="display: none;">
+                                <button type="button" @click="exportJSON()" class="btn btn-sm btn-success rounded-pill px-3 py-2 font-semibold">
+                                    <i class="fa fa-file-download me-1"></i> Ekspor Semua (JSON)
+                                </button>
+                                <button type="button" @click="clearRegistrations()" class="btn btn-sm btn-outline-danger rounded-pill px-3 py-2 font-semibold">
+                                    <i class="fa fa-trash-alt me-1"></i> Hapus Riwayat
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive" style="max-height: 300px; overflow-y: auto;">
+                            <table class="table table-hover table-striped align-middle mb-0" style="font-size: 0.85rem;">
+                                <thead class="table-light sticky-top">
+                                    <tr>
+                                        <th>Kode</th>
+                                        <th>Nama</th>
+                                        <th>Paket</th>
+                                        <th class="text-center">Peserta (U + T)</th>
+                                        <th class="text-end">Total Biaya</th>
+                                        <th class="text-end">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template x-for="reg in registrations" :key="reg.ticketCode">
+                                        <tr>
+                                            <td class="font-monospace fw-bold text-success" x-text="reg.ticketCode"></td>
+                                            <td class="fw-semibold" x-text="reg.nama"></td>
+                                            <td>
+                                                <span class="badge" 
+                                                      :class="reg.paket === 'New Cabin' ? 'bg-warning text-dark' : (reg.paket === 'Tenda Pondok' ? 'bg-success text-white' : (reg.paket === 'Tenda Nyaman' ? 'bg-info text-white' : 'bg-secondary text-white'))"
+                                                      x-text="reg.paket"></span>
+                                            </td>
+                                            <td class="text-center">
+                                                <span x-text="(reg.pesertaUtama.dewasa + reg.pesertaUtama.anak + reg.pesertaUtama.balita)"></span> Orang
+                                                <span class="text-muted small" x-show="(reg.pesertaTambahan.dewasa + reg.pesertaTambahan.anak) > 0" 
+                                                      x-text="'+ ' + (reg.pesertaTambahan.dewasa + reg.pesertaTambahan.anak) + ' Tambahan'"></span>
+                                            </td>
+                                            <td class="text-end fw-bold text-success font-monospace" x-text="'Rp ' + reg.totalCost.toLocaleString('id-ID')"></td>
+                                            <td class="text-end">
+                                                <div class="d-flex justify-content-end gap-1">
+                                                    <a :href="'tiket.html?code=' + encodeURIComponent(reg.ticketCode) + '&nama=' + encodeURIComponent(reg.nama) + '&wa=' + encodeURIComponent(reg.wa) + '&paket=' + encodeURIComponent(reg.paket) + '&ud=' + reg.pesertaUtama.dewasa + '&ua=' + reg.pesertaUtama.anak + '&ub=' + reg.pesertaUtama.balita + '&td=' + reg.pesertaTambahan.dewasa + '&ta=' + reg.pesertaTambahan.anak + '&catatan=' + encodeURIComponent(reg.catatan)" 
+                                                       class="btn btn-sm btn-outline-success rounded-circle" title="Lihat/Cetak Tiket" style="width:30px; height:30px; padding:0; display:flex; align-items:center; justify-content:center;">
+                                                        <i class="fa fa-ticket-alt" style="font-size:0.75rem;"></i>
+                                                    </a>
+                                                    <button type="button" @click="
+                                                        var dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(reg, null, 2));
+                                                        var downloadAnchor = document.createElement('a');
+                                                        downloadAnchor.setAttribute('href', dataStr);
+                                                        downloadAnchor.setAttribute('download', 'pendaftaran_' + reg.ticketCode + '.json');
+                                                        document.body.appendChild(downloadAnchor);
+                                                        downloadAnchor.click();
+                                                        downloadAnchor.remove();
+                                                    " class="btn btn-sm btn-outline-primary rounded-circle" title="Download JSON Tiket" style="width:30px; height:30px; padding:0; display:flex; align-items:center; justify-content:center;">
+                                                        <i class="fa fa-download" style="font-size:0.75rem;"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ============================================
+         NO REKENING & KONFIRMASI PEMBAYARAN
+    ============================================= -->
+    <section id="konfirmasi" class="section-padding bg-light">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-title">Nomor Rekening & Konfirmasi Pembayaran</h2>
+                <p class="text-muted">Lakukan transfer ke rekening resmi di bawah, lalu konfirmasi via WhatsApp Admin</p>
+            </div>
+
+            <div class="row g-4 mt-4 justify-content-center scroll-animate">
+
+                <!-- Rekening: Bank Muamalat -->
+                <div class="col-lg-6 col-md-8">
+                    <div class="card border-0 shadow-sm rounded-3 p-4 bg-white rekening-card" style="border-top: 4px solid #00573F !important;">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="rekening-bank-icon me-3">
+                                <i class="fa fa-university fa-2x" style="color: #00573F;"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold mb-0" style="color: #00573F;">Bank Muamalat Indonesia</h5>
+                                <small class="text-muted">Rekening Resmi Panitia Rihlah Akbar</small>
+                            </div>
+                        </div>
+                        <div class="rekening-number-box p-3 rounded-3 text-center mb-3" style="background: linear-gradient(135deg, #f0fff4, #e6f7ef);">
+                            <span class="d-block small text-muted mb-1">Nomor Rekening</span>
+                            <h3 class="fw-bold mb-0 font-monospace" style="color: #00573F; letter-spacing: 3px; font-size: 1.8rem;" id="rekeningMuamalat">4670 0168 12</h3>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <span class="d-block small text-muted">Atas Nama</span>
+                                <span class="fw-bold">RADEN ARIE SANDRIAWAN WIJAYA</span>
+                            </div>
+                            <button class="btn btn-sm rounded-pill px-3" style="background-color: #00573F; color: white;" onclick="copyRekening('4670016812', this)" title="Salin nomor rekening">
+                                <i class="fa fa-copy me-1"></i> Salin
+                            </button>
+                        </div>
+                        <div class="mt-3 text-center">
+                            <span class="badge rounded-pill px-3 py-2" style="background-color: #e6f7ef; color: #00573F;"><i class="fa fa-shield-alt me-1"></i>Rekening Terverifikasi Panitia</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Langkah Konfirmasi -->
+            <div class="row justify-content-center mt-5 scroll-animate">
+                <div class="col-lg-10">
+                    <div class="card border-0 shadow-sm rounded-3 p-4 p-md-5 bg-white">
+                        <h4 class="fw-bold text-center mb-4" style="color: var(--primary-color);"><i class="fa fa-clipboard-check me-2"></i>Langkah Konfirmasi Pembayaran</h4>
+                        <div class="row g-4">
+                            <div class="col-md-3 text-center">
+                                <div class="konfirmasi-step mx-auto mb-3">
+                                    <span class="fw-bold text-white fs-5">1</span>
+                                </div>
+                                <h6 class="fw-bold">Transfer Dana</h6>
+                                <small class="text-muted">Transfer sesuai total biaya paket ke salah satu rekening di atas</small>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <div class="konfirmasi-step mx-auto mb-3">
+                                    <span class="fw-bold text-white fs-5">2</span>
+                                </div>
+                                <h6 class="fw-bold">Screenshot Bukti</h6>
+                                <small class="text-muted">Tangkap layar / foto bukti transfer yang jelas dan terbaca</small>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <div class="konfirmasi-step mx-auto mb-3">
+                                    <span class="fw-bold text-white fs-5">3</span>
+                                </div>
+                                <h6 class="fw-bold">Kirim ke Admin</h6>
+                                <small class="text-muted">Kirim bukti transfer beserta nama lengkap ke WhatsApp Admin</small>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <div class="konfirmasi-step mx-auto mb-3">
+                                    <span class="fw-bold text-white fs-5">4</span>
+                                </div>
+                                <h6 class="fw-bold">Slot Terkonfirmasi</h6>
+                                <small class="text-muted">Admin memverifikasi dan slot tenda Anda resmi terkunci aman</small>
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <div class="text-center">
+                            <div class="alert alert-warning d-inline-block py-2 px-4 rounded-pill mb-3">
+                                <i class="fa fa-exclamation-triangle me-2"></i>
+                                <strong>Batas waktu konfirmasi: 3 × 24 jam</strong> sejak pengisian formulir pendaftaran
+                            </div>
+                            <br>
+                            <a href="https://api.whatsapp.com/send?phone=6285359090206&text=Assalamu'alaikum%20Admin%2C%20saya%20ingin%20konfirmasi%20pembayaran%20Rihlah%20Akbar%20Jilid%202.%20Berikut%20bukti%20transfer%20saya%3A" target="_blank" rel="noopener noreferrer" class="btn btn-custom rounded-pill px-4 py-2 fs-6" id="btnKonfirmasiWA">
+                                <i class="fab fa-whatsapp me-2"></i> Konfirmasi Pembayaran via WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ============================================
+         F.A.Q SECTION
+    ============================================= -->
+    <section id="faq" class="section-padding bg-light">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-title">Pertanyaan yang Sering Diajukan (F.A.Q)</h2>
+            </div>
+            <div class="row justify-content-center mt-5 scroll-animate">
+                <div class="col-lg-9">
+                    <div class="accordion" id="faqAccordion">
+
+                        <div class="accordion-item shadow-sm mb-2">
+                            <h2 class="accordion-header" id="faqHead1">
+                                <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#f1" aria-expanded="true" aria-controls="f1">
+                                    Siapa sajakah yang diperbolehkan mendaftar mengikuti agenda ini?
+                                </button>
+                            </h2>
+                            <div id="f1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion" aria-labelledby="faqHead1">
+                                <div class="accordion-body text-muted">
+                                    Kegiatan terbuka bebas untuk umum jemaah ikhwan personal mandiri maupun yang sudah memiliki keluarga berkelompok.
+                                    Demi kenyamanan, untuk <strong>Akhwat lajang (single) tidak diperkenankan ikut sendirian</strong>
+                                    kecuali pergi berdampingan bersama orang tua/mahram resminya.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item shadow-sm mb-2">
+                            <h2 class="accordion-header" id="faqHead2">
+                                <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#f2" aria-expanded="false" aria-controls="f2">
+                                    Bagaimanakah alur validasi transaksi pembayaran pendaftaran?
+                                </button>
+                            </h2>
+                            <div id="f2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion" aria-labelledby="faqHead2">
+                                <div class="accordion-body text-muted">
+                                    Setelah mengirim data form, sistem otomatis mengarahkan Anda menuju chat Admin WhatsApp.
+                                    Admin memberikan detail nomor rekening resmi perwakilan kepengurusan. Bukti transfer wajib dikirimkan
+                                    dalam kurun waktu 3x24 jam sejak input form agar slot tenda Anda tidak hangus terhapus otomatis oleh sistem antrean berkala.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item shadow-sm mb-2">
+                            <h2 class="accordion-header" id="faqHead3">
+                                <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#f3" aria-expanded="false" aria-controls="f3">
+                                    Logistik mandiri krusial apa yang direkomendasikan dibawa peserta?
+                                </button>
+                            </h2>
+                            <div id="f3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion" aria-labelledby="faqHead3">
+                                <div class="accordion-body text-muted">
+                                    Mengingat letak geografis lokasi Pamah Simelir cenderung cukup dingin di fase tengah malam hari,
+                                    pastikan membawa jaket tebal pelindung, kaos kaki ekstra, penutup kepala hangat, perlengkapan ibadah sajadah pribadi,
+                                    lampu tenda darurat portabel, payung/jas hujan plastik tipis antipasi, serta obat-obatan penunjang kesehatan pribadi.
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ============================================
+         FOOTER
+    ============================================= -->
+    <footer class="bg-dark text-white-50 pt-5 pb-3 site-footer">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <h5 class="text-white fw-bold mb-3">BINJAI MENGAJI</h5>
+                    <p class="small text-muted">
+                        Wadah jembatan silaturahmi menuntut ilmu syar'i terintegrasi
+                        berlandaskan pemahaman salafus shalih di wilayah Kota Binjai dan sekitarnya.
+                    </p>
+                </div>
+                <div class="col-lg-4">
+                    <h5 class="text-white fw-bold mb-3">Tautan Navigasi</h5>
+                    <div class="row g-1 small">
+                        <div class="col-6">
+                            <ul class="list-unstyled">
+                                <li><a href="#tentang" class="text-decoration-none text-white-50">Tentang Event</a></li>
+                                <li><a href="#jadwal" class="text-decoration-none text-white-50">Jadwal Acara</a></li>
+                                <li><a href="#lokasi" class="text-decoration-none text-white-50">Lokasi Pamah</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-6">
+                            <ul class="list-unstyled">
+                                <li><a href="#paket" class="text-decoration-none text-white-50">Daftar Paket</a></li>
+                                <li><a href="denah.html" class="text-decoration-none text-white-50"><i class="fa fa-map me-1"></i>Denah Area</a></li>
+                                <li><a href="tiket.html" class="text-decoration-none text-white-50"><i class="fa fa-ticket-alt me-1"></i>Cetak Tiket</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <h5 class="text-white fw-bold mb-3">Layanan Informasi</h5>
+                    <p class="small mb-1"><i class="fa fa-envelope text-success me-2"></i> binjaimengaji@gmail.com</p>
+                    <p class="small mb-3"><i class="fa fa-phone text-success me-2"></i> 0813-7589-9408 (Akhi Dhana)</p>
+                    <div class="d-flex gap-2">
+                        <a href="#" class="btn btn-sm btn-outline-light rounded-circle" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="btn btn-sm btn-outline-light rounded-circle" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="btn btn-sm btn-outline-light rounded-circle" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="border-secondary my-4">
+            <div class="text-center small text-muted">
+                &copy; 2026 <strong>Binjai Mengaji</strong>. Seluruh Hak Cipta Dilindungi Undang-Undang.
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Floating Back to Top Button -->
+    <a href="#" class="back-to-top" id="backToTop" aria-label="Kembali ke atas">
+        <i class="fa fa-chevron-up"></i>
+    </a>
+
+    <!-- Bootstrap 5 Bundle JS (includes Popper - Local) -->
+    <script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Main JS -->
+    <script src="js/main.js"></script>
+
+</body>
+</html>

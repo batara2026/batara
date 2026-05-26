@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Denah Area Tenda Rihlah Akbar Jilid 2 - Pamah View, Langkat. Area A, B, C beserta fasilitas lengkap.">
+    <title>Denah Area Tenda - Rihlah Akbar Jilid 2 | Pamah View</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="img/favicon.png">
+
+    <!-- Bootstrap 5 -->
+    <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Amiri:ital@1&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --green-dark: #0d3b22;
+            --green-main: #1a5c38;
+            --green-mid: #2d8855;
+            --green-light: #4caf78;
+            --gold: #c8a951;
+            --gold-light: #f0d080;
+            --area-a: #1a6ebd;
+            --area-b: #2d8855;
+            --area-c: #00a8cc;
+            --area-d: #c8a951;
+            --toilet: #6c5ce7;
+            --musholla: #e84393;
+            --parkir: #636e72;
+            --dapur: #e67e22;
+            --api: #e74c3c;
+            --pintu: #00b894;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(160deg, #0a2516 0%, #0d3b22 50%, #0a2516 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* ---- HEADER ---- */
+        .page-header {
+            background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding: 16px 24px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .brand-logo {
+            color: white;
+            font-weight: 800;
+            font-size: 1.1rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .brand-logo:hover { color: var(--gold); }
+        .brand-icon {
+            width: 38px; height: 38px;
+            background: linear-gradient(135deg, var(--green-main), var(--green-mid));
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .header-nav { display: flex; gap: 10px; flex-wrap: wrap; }
+        .btn-nav {
+            color: rgba(255,255,255,0.75);
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 8px;
+            padding: 7px 16px;
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-nav:hover { background: rgba(255,255,255,0.15); color: white; }
+        .btn-nav.active { background: var(--gold); color: #1a1a1a; border-color: var(--gold); font-weight: 600; }
+
+        /* ---- MAIN CONTENT ---- */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px 60px;
+        }
+
+        .page-title-section {
+            text-align: center;
+            margin-bottom: 36px;
+        }
+        .page-badge {
+            display: inline-block;
+            background: rgba(200,169,81,0.18);
+            border: 1px solid rgba(200,169,81,0.4);
+            color: var(--gold);
+            border-radius: 30px;
+            padding: 6px 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+        .page-title {
+            color: white;
+            font-size: 2.4rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 10px;
+        }
+        .page-title span { color: var(--gold); }
+        .page-subtitle {
+            color: rgba(255,255,255,0.55);
+            font-size: 1rem;
+        }
+
+        /* ---- LEGEND ---- */
+        .legend-card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-bottom: 24px;
+        }
+        .legend-title {
+            color: var(--gold);
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .legend-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 8px;
+            padding: 6px 12px;
+            font-size: 0.82rem;
+            color: rgba(255,255,255,0.85);
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .legend-item:hover { background: rgba(255,255,255,0.12); }
+        .legend-dot {
+            width: 14px; height: 14px;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        /* ---- MAP CONTAINER ---- */
+        .map-outer {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 24px;
+            position: relative;
+        }
+        .map-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+        .map-title-text {
+            color: white;
+            font-weight: 700;
+            font-size: 1.05rem;
+        }
+        .map-tools { display: flex; gap: 8px; }
+        .btn-tool {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 8px;
+            color: white;
+            padding: 6px 14px;
+            font-size: 0.82rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-tool:hover { background: rgba(255,255,255,0.18); }
+        .btn-tool.active { background: var(--gold); color: #1a1a1a; border-color: var(--gold); }
+
+        /* THE MAP */
+        .map-svg-wrapper {
+            overflow: auto;
+            border-radius: 12px;
+            background: #1a2e1f;
+            cursor: grab;
+            user-select: none;
+        }
+        .map-svg-wrapper:active { cursor: grabbing; }
+
+        #mainMap {
+            display: block;
+            min-width: 720px;
+            transition: transform 0.3s;
+        }
+
+        /* Info panel */
+        .info-panel {
+            position: absolute;
+            top: 80px;
+            right: 40px;
+            width: 220px;
+            background: rgba(10,37,22,0.95);
+            border: 1px solid rgba(200,169,81,0.4);
+            border-radius: 14px;
+            padding: 16px;
+            display: none;
+            z-index: 50;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+        }
+        .info-panel.visible { display: block; }
+        .info-panel-close {
+            position: absolute;
+            top: 10px; right: 12px;
+            cursor: pointer;
+            color: rgba(255,255,255,0.5);
+            font-size: 1rem;
+            line-height: 1;
+        }
+        .info-panel-close:hover { color: white; }
+        .info-panel h6 {
+            color: var(--gold);
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+        }
+        .info-panel p {
+            color: rgba(255,255,255,0.75);
+            font-size: 0.8rem;
+            margin: 0;
+            line-height: 1.5;
+        }
+        .info-panel .ib {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            color: rgba(255,255,255,0.75);
+            font-size: 0.78rem;
+        }
+        .info-panel .ib:last-child { border: none; }
+        .info-panel .ib i { color: var(--gold); margin-top: 2px; flex-shrink: 0; }
+
+        /* ---- AREA DETAIL CARDS ---- */
+        .area-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-top: 24px;
+        }
+        .area-card {
+            border-radius: 16px;
+            padding: 20px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.25s;
+            position: relative;
+            overflow: hidden;
+        }
+        .area-card::before {
+            content: '';
+            position: absolute;
+            top: -30px; right: -30px;
+            width: 100px; height: 100px;
+            border-radius: 50%;
+            opacity: 0.15;
+        }
+        .area-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+        }
+        .area-card.area-a { background: rgba(26,110,189,0.12); border-color: rgba(26,110,189,0.4); }
+        .area-card.area-a::before { background: var(--area-a); }
+        .area-card.area-b { background: rgba(45,136,85,0.12); border-color: rgba(45,136,85,0.4); }
+        .area-card.area-b::before { background: var(--area-b); }
+        .area-card.area-c { background: rgba(0,168,204,0.12); border-color: rgba(0,168,204,0.4); }
+        .area-card.area-c::before { background: var(--area-c); }
+        .area-card.area-d { background: rgba(200,169,81,0.12); border-color: rgba(200,169,81,0.4); }
+        .area-card.area-d::before { background: var(--area-d); }
+
+        .area-card-icon {
+            width: 44px; height: 44px;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+        .area-a .area-card-icon { background: rgba(26,110,189,0.25); color: #6bb8f5; }
+        .area-b .area-card-icon { background: rgba(45,136,85,0.25); color: #7ed9a8; }
+        .area-c .area-card-icon { background: rgba(0,168,204,0.25); color: #81e6d9; }
+        .area-d .area-card-icon { background: rgba(200,169,81,0.25); color: var(--gold); }
+
+        .area-card h5 {
+            font-weight: 800;
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+        .area-a h5 { color: #6bb8f5; }
+        .area-b h5 { color: #7ed9a8; }
+        .area-c h5 { color: #81e6d9; }
+        .area-d h5 { color: var(--gold); }
+
+        .area-card .subtitle { color: rgba(255,255,255,0.5); font-size: 0.8rem; margin-bottom: 14px; }
+        .area-card .detail-list { list-style: none; padding: 0; margin: 0; }
+        .area-card .detail-list li {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.8rem;
+            padding: 4px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .area-card .detail-list li:last-child { border: none; }
+        .area-card .detail-list li i { width: 14px; }
+        .area-a .detail-list li i { color: #6bb8f5; }
+        .area-b .detail-list li i { color: #7ed9a8; }
+        .area-c .detail-list li i { color: #81e6d9; }
+        .area-d .detail-list li i { color: var(--gold); }
+
+        .area-slots {
+            margin-top: 14px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .area-slots .count { font-weight: 800; font-size: 1.2rem; }
+        .area-a .area-slots .count { color: #6bb8f5; }
+        .area-b .area-slots .count { color: #7ed9a8; }
+        .area-c .area-slots .count { color: #81e6d9; }
+        .area-d .area-slots .count { color: var(--gold); }
+        .area-slots .label { color: rgba(255,255,255,0.45); font-size: 0.72rem; }
+
+        /* ---- FACILITIES GRID ---- */
+        .facilities-section { margin-top: 32px; }
+        .section-heading {
+            color: white;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-heading::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .fac-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 14px;
+        }
+        .fac-item {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 14px;
+            padding: 16px;
+            text-align: center;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .fac-item:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+            border-color: rgba(255,255,255,0.2);
+        }
+        .fac-icon {
+            width: 48px; height: 48px;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 10px;
+            font-size: 1.2rem;
+        }
+        .fac-item h6 {
+            color: white;
+            font-weight: 700;
+            font-size: 0.82rem;
+            margin-bottom: 4px;
+        }
+        .fac-item small { color: rgba(255,255,255,0.45); font-size: 0.72rem; }
+
+        /* ---- NOTES ---- */
+        .notes-card {
+            background: rgba(200,169,81,0.1);
+            border: 1px solid rgba(200,169,81,0.3);
+            border-radius: 14px;
+            padding: 20px 24px;
+            margin-top: 24px;
+        }
+        .notes-card h6 {
+            color: var(--gold);
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .notes-card ul {
+            padding-left: 18px;
+            margin: 0;
+        }
+        .notes-card li {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.85rem;
+            padding: 3px 0;
+        }
+
+        /* ---- RESPONSIVE ---- */
+        @media (max-width: 768px) {
+            .area-cards { grid-template-columns: 1fr; }
+            .page-title { font-size: 1.8rem; }
+            #mainMap { min-width: 560px; }
+        }
+        @media (max-width: 480px) {
+            .page-title { font-size: 1.5rem; }
+        }
+
+        @media print {
+            .page-header { position: static; }
+            .btn-nav, .btn-tool, .map-toolbar { display: none; }
+            body { background: white; }
+            .main-content { padding: 10px; }
+        }
+
+        /* Pulse animation for entrance marker */
+        @keyframes pulse {
+            0%,100% { opacity:1; transform: scale(1); }
+            50% { opacity:0.6; transform: scale(1.15); }
+        }
+        .entrance-pulse { animation: pulse 2s ease-in-out infinite; }
+    </style>
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header class="page-header">
+        <div class="header-inner">
+            <a href="index.html" class="brand-logo">
+                <div class="brand-icon">
+                    <i class="fa fa-campground text-white"></i>
+                </div>
+                Rihlah Akbar Jilid 2
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="btn-nav"><i class="fa fa-home"></i> Beranda</a>
+                <a href="tiket.html" class="btn-nav"><i class="fa fa-ticket-alt"></i> Cetak Tiket</a>
+                <a href="denah.html" class="btn-nav active"><i class="fa fa-map"></i> Denah Area</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ===== MAIN ===== -->
+    <main class="main-content">
+
+        <!-- Title Section -->
+        <div class="page-title-section">
+            <div class="page-badge"><i class="fa fa-map me-1"></i> Peta Interaktif</div>
+            <h1 class="page-title">Denah Area <span>Pamah View</span></h1>
+            <p class="page-subtitle">
+                Tata letak area perkemahan Rihlah Akbar Jilid 2 &bull; 11–12 Juli 2026
+            </p>
+        </div>
+
+        <!-- Legend -->
+        <div class="legend-card">
+            <div class="legend-title"><i class="fa fa-list-ul"></i> Keterangan Peta</div>
+            <div class="legend-items">
+                <div class="legend-item"><span class="legend-dot" style="background:var(--area-a);"></span> Area A – New Cabin</div>
+                <div class="legend-item"><span class="legend-dot" style="background:var(--area-b);"></span> Area B – Tenda Pondok</div>
+                <div class="legend-item"><span class="legend-dot" style="background:var(--area-c);"></span> Area C – Tenda Nyaman</div>
+                <div class="legend-item"><span class="legend-dot" style="background:var(--area-d);"></span> Area D – Tenda Sedang</div>
+            </div>
+        </div>
+
+        <!-- Map Outer -->
+        <div class="map-outer">
+            <div class="map-toolbar">
+                <div class="map-title-text"><i class="fa fa-map-marked-alt me-2" style="color:var(--gold);"></i>Peta Interaktif Area Pamah View</div>
+                <div class="map-tools">
+                    <button class="btn-tool" onclick="zoomIn()"><i class="fa fa-plus"></i> Perbesar</button>
+                    <button class="btn-tool" onclick="zoomOut()"><i class="fa fa-minus"></i> Perkecil</button>
+                    <button class="btn-tool" onclick="resetZoom()"><i class="fa fa-expand"></i> Reset</button>
+                    <button class="btn-tool" onclick="window.print()"><i class="fa fa-print"></i> Cetak</button>
+                </div>
+            </div>
+
+            <!-- Info Panel (shown on area click) -->
+            <div class="info-panel" id="infoPanel">
+                <span class="info-panel-close" onclick="closeInfo()"><i class="fa fa-times"></i></span>
+                <h6 id="infoPanelTitle">—</h6>
+                <div id="infoPanelContent"></div>
+            </div>
+
+            <!-- SVG Map -->
+            <div class="map-svg-wrapper" id="mapWrapper">
+                <svg id="mainMap" viewBox="0 0 1000 620" xmlns="http://www.w3.org/2000/svg" style="width:100%; max-width:1000px;">
+                    <defs>
+                        <!-- Ground gradient -->
+                        <linearGradient id="groundGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#1a2e1f"/>
+                            <stop offset="100%" style="stop-color:#152614"/>
+                        </linearGradient>
+                        <!-- Area gradients -->
+                        <linearGradient id="areaAGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#1a6ebd;stop-opacity:0.5"/>
+                            <stop offset="100%" style="stop-color:#0e4f8a;stop-opacity:0.6"/>
+                        </linearGradient>
+                        <linearGradient id="areaBGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#2d8855;stop-opacity:0.5"/>
+                            <stop offset="100%" style="stop-color:#1a5c38;stop-opacity:0.6"/>
+                        </linearGradient>
+                        <linearGradient id="areaCGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#00a8cc;stop-opacity:0.5"/>
+                            <stop offset="100%" style="stop-color:#007a99;stop-opacity:0.6"/>
+                        </linearGradient>
+                        <linearGradient id="areaDGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#c8a951;stop-opacity:0.45"/>
+                            <stop offset="100%" style="stop-color:#9e8030;stop-opacity:0.5"/>
+                        </linearGradient>
+                        <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+                            <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="rgba(0,0,0,0.4)"/>
+                        </filter>
+                        <filter id="glow">
+                            <feGaussianBlur stdDeviation="3" result="blur"/>
+                            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                        </filter>
+                        <!-- Tree pattern -->
+                        <pattern id="treePattern" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse">
+                            <circle cx="15" cy="12" r="8" fill="#0d3b22" opacity="0.5"/>
+                            <circle cx="8" cy="18" r="6" fill="#0d3b22" opacity="0.4"/>
+                            <circle cx="22" cy="18" r="6" fill="#0d3b22" opacity="0.4"/>
+                        </pattern>
+                    </defs>
+
+                    <!-- Ground / Background -->
+                    <rect width="1000" height="620" fill="url(#groundGrad)"/>
+
+                    <!-- Treeline / Nature strips -->
+                    <rect x="0" y="0" width="1000" height="45" fill="url(#treePattern)" opacity="0.7"/>
+                    <rect x="0" y="575" width="1000" height="45" fill="url(#treePattern)" opacity="0.6"/>
+                    <rect x="0" y="0" width="30" height="620" fill="url(#treePattern)" opacity="0.6"/>
+                    <rect x="970" y="0" width="30" height="620" fill="url(#treePattern)" opacity="0.6"/>
+
+                    <!-- Main Road / Path -->
+                    <rect x="30" y="45" width="940" height="18" fill="#2a3d2e" rx="4"/>
+                    <line x1="30" y1="54" x2="970" y2="54" stroke="#3d5e42" stroke-width="1" stroke-dasharray="20,10"/>
+
+                    <!-- Vertical main lane -->
+                    <rect x="450" y="45" width="16" height="530" fill="#2a3d2e"/>
+                    <line x1="458" y1="45" x2="458" y2="575" stroke="#3d5e42" stroke-width="1" stroke-dasharray="15,8"/>
+
+                    <!-- Horizontal lane center -->
+                    <rect x="30" y="295" width="940" height="16" fill="#2a3d2e" rx="2"/>
+                    <line x1="30" y1="303" x2="970" y2="303" stroke="#3d5e42" stroke-width="1" stroke-dasharray="15,8"/>
+
+                    <!-- ==========================================
+                         AREA A - NEW CABIN (Top Left)
+                    ========================================== -->
+                    <g id="area-a" class="map-area" onclick="showAreaInfo('A')" style="cursor:pointer;">
+                        <rect x="36" y="70" width="400" height="210" rx="12" fill="url(#areaAGrad)" stroke="#1a6ebd" stroke-width="2.5" filter="url(#shadow)"/>
+                        <!-- Area label -->
+                        <rect x="40" y="74" width="96" height="28" rx="6" fill="#1a6ebd"/>
+                        <text x="88" y="93" text-anchor="middle" font-family="Inter" font-weight="800" font-size="13" fill="white">AREA A</text>
+
+                        <!-- Sub label -->
+                        <text x="236" y="100" text-anchor="middle" font-family="Inter" font-weight="700" font-size="11" fill="rgba(107,184,245,0.85)">NEW CABIN</text>
+
+                        <!-- Cabin units (2 rows x 4) -->
+                        <!-- Row 1 -->
+                        <rect x="46" y="110" width="72" height="50" rx="6" fill="#1a6ebd" opacity="0.5" stroke="#6bb8f5" stroke-width="1.5"/>
+                        <text x="82" y="133" text-anchor="middle" font-family="Inter" font-size="10" fill="white" font-weight="600">Kabin 1</text>
+                        <text x="82" y="147" text-anchor="middle" font-family="Inter" font-size="8" fill="rgba(255,255,255,0.6)">3 Orang</text>
+
+                        <rect x="128" y="110" width="72" height="50" rx="6" fill="#1a6ebd" opacity="0.5" stroke="#6bb8f5" stroke-width="1.5"/>
+                        <text x="164" y="133" text-anchor="middle" font-family="Inter" font-size="10" fill="white" font-weight="600">Kabin 2</text>
+                        <text x="164" y="147" text-anchor="middle" font-family="Inter" font-size="8" fill="rgba(255,255,255,0.6)">3 Orang</text>
+
+                        <rect x="210" y="110" width="72" height="50" rx="6" fill="#1a6ebd" opacity="0.5" stroke="#6bb8f5" stroke-width="1.5"/>
+                        <text x="246" y="133" text-anchor="middle" font-family="Inter" font-size="10" fill="white" font-weight="600">Kabin 3</text>
+                        <text x="246" y="147" text-anchor="middle" font-family="Inter" font-size="8" fill="rgba(255,255,255,0.6)">3 Orang</text>
+
+                        <rect x="292" y="110" width="72" height="50" rx="6" fill="#1a6ebd" opacity="0.5" stroke="#6bb8f5" stroke-width="1.5"/>
+                        <text x="328" y="133" text-anchor="middle" font-family="Inter" font-size="10" fill="white" font-weight="600">Kabin 4</text>
+                        <text x="328" y="147" text-anchor="middle" font-family="Inter" font-size="8" fill="rgba(255,255,255,0.6)">3 Orang</text>
+
+                        <rect x="374" y="110" width="55" height="50" rx="6" fill="#1a6ebd" opacity="0.5" stroke="#6bb8f5" stroke-width="1.5"/>
+                        <text x="401" y="133" text-anchor="middle" font-family="Inter" font-size="10" fill="white" font-weight="600">K5</text>
+                        <text x="401" y="147" text-anchor="middle" font-family="Inter" font-size="8" fill="rgba(255,255,255,0.6)">3 org</text>
+
+                        <!-- Row 2 -->
+                        <rect x="46" y="175" width="72" height="50" rx="6" fill="#1a6ebd" opacity="0.4" stroke="#6bb8f5" stroke-width="1.5"/>
+                        <text x="82" y="198" text-anchor="middle" font-family="Inter" font-size="10" fill="white" font-weight="600">Kabin 6</text>
+                        <text x="82" y="212" text-anchor="middle" font-family="Inter" font-size="8" fill="rgba(255,255,255,0.6)">3 Orang</text>
+
+                        <rect x="128" y="175" width="72" height="50" rx="6" fill="#1a6ebd" opacity="0.4" stroke="#6bb8f5" stroke-width="1.5"/>
+                        <text x="164" y="198" text-anchor="middle" font-family="Inter" font-size="10" fill="white" font-weight="600">Kabin 7</text>
+                        <text x="164" y="212" text-anchor="middle" font-family="Inter" font-size="8" fill="rgba(255,255,255,0.6)">3 Orang</text>
+
+                        <rect x="210" y="175" width="72" height="50" rx="6" fill="#1a6ebd" opacity="0.4" stroke="#6bb8f5" stroke-width="1.5"/>
+                        <text x="246" y="198" text-anchor="middle" font-family="Inter" font-size="10" fill="white" font-weight="600">Kabin 8</text>
+                        <text x="246" y="212" text-anchor="middle" font-family="Inter" font-size="8" fill="rgba(255,255,255,0.6)">3 Orang</text>
+
+                        <rect x="292" y="175" width="72" height="50" rx="6" fill="#1a6ebd" opacity="0.4" stroke="#6bb8f5" stroke-width="1.5"/>
+                        <text x="328" y="198" text-anchor="middle" font-family="Inter" font-size="10" fill="white" font-weight="600">Kabin 9</text>
+                        <text x="328" y="212" text-anchor="middle" font-family="Inter" font-size="8" fill="rgba(255,255,255,0.6)">3 Orang</text>
+
+                        <rect x="374" y="175" width="55" height="50" rx="6" fill="#1a6ebd" opacity="0.4" stroke="#6bb8f5" stroke-width="1.5"/>
+                        <text x="401" y="198" text-anchor="middle" font-family="Inter" font-size="10" fill="white" font-weight="600">K10</text>
+                        <text x="401" y="212" text-anchor="middle" font-family="Inter" font-size="8" fill="rgba(255,255,255,0.6)">3 org</text>
+
+                        <!-- Row 3 -->
+                        <rect x="46" y="238" width="80" height="36" rx="6" fill="rgba(26,110,189,0.3)" stroke="#6bb8f5" stroke-width="1.5"/>
+                        <text x="86" y="260" text-anchor="middle" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.7)">K11–K14...</text>
+
+                        <rect x="136" y="238" width="80" height="36" rx="6" fill="rgba(26,110,189,0.3)" stroke="#6bb8f5" stroke-width="1.5"/>
+                        <text x="176" y="260" text-anchor="middle" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.7)">K15–K20</text>
+
+                        <!-- Area A capacity label -->
+                        <rect x="240" y="240" width="190" height="34" rx="8" fill="rgba(0,0,0,0.25)"/>
+                        <text x="335" y="258" text-anchor="middle" font-family="Inter" font-size="11" fill="#6bb8f5" font-weight="700">🏠 20 Unit New Cabin</text>
+                    </g>
+
+                    <!-- ==========================================
+                         AREA B - TENDA PONDOK (Top Right Upper)
+                    ========================================== -->
+                    <g id="area-b" class="map-area" onclick="showAreaInfo('B')" style="cursor:pointer;">
+                        <rect x="474" y="70" width="490" height="105" rx="8" fill="url(#areaBGrad)" stroke="#2d8855" stroke-width="2.5" filter="url(#shadow)"/>
+                        <rect x="478" y="74" width="96" height="28" rx="6" fill="#2d8855"/>
+                        <text x="526" y="93" text-anchor="middle" font-family="Inter" font-weight="800" font-size="13" fill="white">AREA B</text>
+                        <text x="716" y="92" text-anchor="middle" font-family="Inter" font-weight="700" font-size="11" fill="rgba(126,217,168,0.85)">TENDA PONDOK</text>
+
+                        <!-- tents row 1 -->
+                        <polygon points="510,145 530,110 550,145" fill="#2d8855" opacity="0.7" stroke="#7ed9a8" stroke-width="1.5"/>
+                        <text x="530" y="158" text-anchor="middle" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.8)">P-01</text>
+
+                        <polygon points="580,145 600,110 620,145" fill="#2d8855" opacity="0.7" stroke="#7ed9a8" stroke-width="1.5"/>
+                        <text x="600" y="158" text-anchor="middle" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.8)">P-02</text>
+
+                        <polygon points="650,145 670,110 690,145" fill="#2d8855" opacity="0.7" stroke="#7ed9a8" stroke-width="1.5"/>
+                        <text x="670" y="158" text-anchor="middle" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.8)">P-03</text>
+
+                        <polygon points="720,145 740,110 760,145" fill="#2d8855" opacity="0.7" stroke="#7ed9a8" stroke-width="1.5"/>
+                        <text x="740" y="158" text-anchor="middle" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.8)">P-04</text>
+
+                        <polygon points="790,145 810,110 830,145" fill="#2d8855" opacity="0.7" stroke="#7ed9a8" stroke-width="1.5"/>
+                        <text x="810" y="158" text-anchor="middle" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.8)">P-05</text>
+
+                        <polygon points="860,145 880,110 900,145" fill="#2d8855" opacity="0.7" stroke="#7ed9a8" stroke-width="1.5"/>
+                        <text x="880" y="158" text-anchor="middle" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.8)">P-06</text>
+
+                        <!-- Area B capacity label -->
+                        <rect x="478" y="142" width="120" height="24" rx="6" fill="rgba(0,0,0,0.25)"/>
+                        <text x="538" y="158" text-anchor="middle" font-family="Inter" font-size="9" fill="#7ed9a8" font-weight="700">⛺ 40 Tenda Pondok</text>
+                    </g>
+
+                    <!-- ==========================================
+                         AREA C - TENDA NYAMAN (Top Right Lower)
+                    ========================================== -->
+                    <g id="area-c" class="map-area" onclick="showAreaInfo('C')" style="cursor:pointer;">
+                        <rect x="474" y="182" width="490" height="98" rx="8" fill="url(#areaCGrad)" stroke="#00a8cc" stroke-width="2.5" filter="url(#shadow)"/>
+                        <rect x="478" y="186" width="96" height="28" rx="6" fill="#00a8cc"/>
+                        <text x="526" y="205" text-anchor="middle" font-family="Inter" font-weight="800" font-size="13" fill="white">AREA C</text>
+                        <text x="716" y="204" text-anchor="middle" font-family="Inter" font-weight="700" font-size="11" fill="rgba(129,230,217,0.85)">TENDA NYAMAN</text>
+
+                        <!-- tents row 2 -->
+                        <polygon points="505,248 525,215 545,248" fill="#007a99" opacity="0.8" stroke="#81e6d9" stroke-width="1.5"/>
+                        <text x="525" y="261" text-anchor="middle" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.8)">N-01</text>
+
+                        <polygon points="565,248 585,215 605,248" fill="#007a99" opacity="0.8" stroke="#81e6d9" stroke-width="1.5"/>
+                        <text x="585" y="261" text-anchor="middle" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.8)">N-02</text>
+
+                        <polygon points="625,248 645,215 665,248" fill="#007a99" opacity="0.8" stroke="#81e6d9" stroke-width="1.5"/>
+                        <text x="645" y="261" text-anchor="middle" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.8)">N-03</text>
+
+                        <polygon points="685,248 705,215 725,248" fill="#007a99" opacity="0.8" stroke="#81e6d9" stroke-width="1.5"/>
+                        <text x="705" y="261" text-anchor="middle" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.8)">N-04</text>
+
+                        <polygon points="745,248 765,215 785,248" fill="#007a99" opacity="0.7" stroke="#81e6d9" stroke-width="1.5"/>
+                        <text x="765" y="261" text-anchor="middle" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.8)">N-05</text>
+
+                        <polygon points="805,248 825,215 845,248" fill="#007a99" opacity="0.7" stroke="#81e6d9" stroke-width="1.5"/>
+                        <text x="825" y="261" text-anchor="middle" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.8)">N-06</text>
+
+                        <polygon points="865,248 885,215 905,248" fill="#007a99" opacity="0.6" stroke="#81e6d9" stroke-width="1.5"/>
+                        <text x="885" y="261" text-anchor="middle" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.8)">N-07</text>
+
+                        <!-- Area C capacity label -->
+                        <rect x="478" y="252" width="120" height="24" rx="6" fill="rgba(0,0,0,0.25)"/>
+                        <text x="538" y="268" text-anchor="middle" font-family="Inter" font-size="9" fill="#81e6d9" font-weight="700">⛺ 50 Tenda Nyaman</text>
+                    </g>
+
+                    <!-- ==========================================
+                         AREA D - TENDA SEDANG (Bottom)
+                    ========================================== -->
+                    <g id="area-d" class="map-area" onclick="showAreaInfo('D')" style="cursor:pointer;">
+                        <rect x="36" y="320" width="928" height="200" rx="12" fill="url(#areaDGrad)" stroke="#c8a951" stroke-width="2.5" filter="url(#shadow)"/>
+                        <rect x="40" y="324" width="96" height="28" rx="6" fill="#c8a951"/>
+                        <text x="88" y="343" text-anchor="middle" font-family="Inter" font-weight="800" font-size="13" fill="#1a1a1a">AREA D</text>
+                        <text x="450" y="345" text-anchor="middle" font-family="Inter" font-weight="700" font-size="11" fill="rgba(200,169,81,0.9)">TENDA SEDANG</text>
+
+                        <!-- Grid of smaller tents -->
+                        <!-- Row 1 -->
+                        <polygon points="50,395 70,357 90,395" fill="#c8a951" opacity="0.6" stroke="#f0d080" stroke-width="1.5"/>
+                        <text x="70" y="408" text-anchor="middle" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.85)">S-01</text>
+
+                        <polygon points="105,395 125,357 145,395" fill="#c8a951" opacity="0.6" stroke="#f0d080" stroke-width="1.5"/>
+                        <text x="125" y="408" text-anchor="middle" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.85)">S-02</text>
+
+                        <polygon points="160,395 180,357 200,395" fill="#c8a951" opacity="0.6" stroke="#f0d080" stroke-width="1.5"/>
+                        <text x="180" y="408" text-anchor="middle" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.85)">S-03</text>
+
+                        <polygon points="215,395 235,357 255,395" fill="#c8a951" opacity="0.6" stroke="#f0d080" stroke-width="1.5"/>
+                        <text x="235" y="408" text-anchor="middle" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.85)">S-04</text>
+
+                        <polygon points="270,395 290,357 310,395" fill="#c8a951" opacity="0.6" stroke="#f0d080" stroke-width="1.5"/>
+                        <text x="290" y="408" text-anchor="middle" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.85)">S-05</text>
+
+                        <polygon points="325,395 345,357 365,395" fill="#c8a951" opacity="0.6" stroke="#f0d080" stroke-width="1.5"/>
+                        <text x="345" y="408" text-anchor="middle" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.85)">S-06</text>
+
+                        <polygon points="380,395 400,357 420,395" fill="#c8a951" opacity="0.6" stroke="#f0d080" stroke-width="1.5"/>
+                        <text x="400" y="408" text-anchor="middle" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.85)">S-07</text>
+
+                        <polygon points="435,395 455,357 475,395" fill="#c8a951" opacity="0.6" stroke="#f0d080" stroke-width="1.5"/>
+                        <text x="455" y="408" text-anchor="middle" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.85)">S-08</text>
+
+                        <polygon points="490,395 510,357 530,395" fill="#c8a951" opacity="0.5" stroke="#f0d080" stroke-width="1.5"/>
+                        <text x="510" y="408" text-anchor="middle" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.85)">S-09</text>
+
+                        <polygon points="545,395 565,357 585,395" fill="#c8a951" opacity="0.5" stroke="#f0d080" stroke-width="1.5"/>
+                        <text x="565" y="408" text-anchor="middle" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.85)">S-10</text>
+
+                        <!-- Row 2 -->
+                        <polygon points="50,460 70,422 90,460" fill="#9e8030" opacity="0.6" stroke="#f0d080" stroke-width="1.5"/>
+                        <text x="70" y="473" text-anchor="middle" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.85)">S-11</text>
+
+                        <polygon points="105,460 125,422 145,460" fill="#9e8030" opacity="0.6" stroke="#f0d080" stroke-width="1.5"/>
+                        <text x="125" y="473" text-anchor="middle" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.85)">S-12</text>
+
+                        <polygon points="160,460 180,422 200,460" fill="#9e8030" opacity="0.6" stroke="#f0d080" stroke-width="1.5"/>
+                        <text x="180" y="473" text-anchor="middle" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.85)">S-13</text>
+
+                        <polygon points="215,460 235,422 255,460" fill="#9e8030" opacity="0.6" stroke="#f0d080" stroke-width="1.5"/>
+                        <text x="235" y="473" text-anchor="middle" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.85)">S-14</text>
+
+                        <polygon points="270,460 290,422 310,460" fill="#9e8030" opacity="0.6" stroke="#f0d080" stroke-width="1.5"/>
+                        <text x="290" y="473" text-anchor="middle" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.85)">S-15</text>
+
+                        <!-- Area D label -->
+                        <rect x="330" y="430" width="285" height="30" rx="8" fill="rgba(0,0,0,0.3)"/>
+                        <text x="472" y="450" text-anchor="middle" font-family="Inter" font-size="11" fill="#f0d080" font-weight="700">⛺ 40 Slot Tenda Sedang (S-01 hingga S-40)</text>
+
+                        <!-- Remaining slots note -->
+                        <rect x="640" y="420" width="310" height="45" rx="8" fill="rgba(0,0,0,0.2)" stroke="rgba(200,169,81,0.3)" stroke-width="1"/>
+                        <text x="795" y="438" text-anchor="middle" font-family="Inter" font-size="9" fill="rgba(200,169,81,0.8)">S-16 hingga S-40</text>
+                        <text x="795" y="455" text-anchor="middle" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.5)">Posisi menyesuaikan kapasitas area</text>
+                    </g>
+
+
+
+                    <!-- Compass -->
+                    <g transform="translate(936, 80)">
+                        <circle cx="0" cy="0" r="24" fill="rgba(0,0,0,0.3)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+                        <polygon points="0,-18 -5,-5 0,-8 5,-5" fill="#fc8181"/>
+                        <polygon points="0,18 -5,5 0,8 5,5" fill="rgba(255,255,255,0.4)"/>
+                        <text x="0" y="-22" text-anchor="middle" font-family="Inter" font-size="9" font-weight="800" fill="#fc8181">U</text>
+                        <text x="0" y="32" text-anchor="middle" font-family="Inter" font-size="8" fill="rgba(255,255,255,0.5)">S</text>
+                        <text x="22" y="4" text-anchor="middle" font-family="Inter" font-size="8" fill="rgba(255,255,255,0.5)">T</text>
+                        <text x="-22" y="4" text-anchor="middle" font-family="Inter" font-size="8" fill="rgba(255,255,255,0.5)">B</text>
+                    </g>
+
+                    <!-- Scale bar -->
+                    <g transform="translate(36, 590)">
+                        <line x1="0" y1="0" x2="100" y2="0" stroke="rgba(255,255,255,0.4)" stroke-width="2"/>
+                        <line x1="0" y1="-4" x2="0" y2="4" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+                        <line x1="100" y1="-4" x2="100" y2="4" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+                        <text x="50" y="-6" text-anchor="middle" font-family="Inter" font-size="9" fill="rgba(255,255,255,0.5)">± 50m</text>
+                    </g>
+
+                    <!-- Map label -->
+                    <text x="500" y="14" text-anchor="middle" font-family="Inter" font-weight="700" font-size="12" fill="rgba(255,255,255,0.4)">DENAH AREA PERKEMAHAN PAMAH VIEW — RIHLAH AKBAR JILID 2 — 2026</text>
+                </svg>
+            </div><!-- /map-svg-wrapper -->
+        </div><!-- /map-outer -->
+
+        <!-- Area Detail Cards -->
+        <div class="area-cards">
+            <!-- Area A -->
+            <div class="area-card area-a" onclick="showAreaInfo('A')">
+                <div class="area-card-icon"><i class="fa fa-home"></i></div>
+                <h5>Area A — New Cabin</h5>
+                <p class="subtitle">Sisi Barat Laut • Paling dekat pintu masuk</p>
+                <ul class="detail-list">
+                    <li><i class="fa fa-users"></i> Kapasitas Max 4 Orang</li>
+                    <li><i class="fa fa-utensils"></i> Alat Panggangan &amp; Teko Listrik</li>
+                    <li><i class="fa fa-bath"></i> Kamar Mandi, Water Heater &amp; Kipas</li>
+                    <li><i class="fa fa-hotel"></i> Sabun, Handuk, Sampo, Sikat Gigi</li>
+                    <li><i class="fa fa-coffee"></i> Kursi Teras, Air Mineral, Kopi &amp; Teh</li>
+                </ul>
+                <div class="area-slots">
+                    <div>
+                        <div class="count">20</div>
+                        <div class="label">Unit Cabin</div>
+                    </div>
+                    <div style="text-align:right;">
+                        <div style="color:rgba(107,184,245,0.7); font-size:0.8rem; font-weight:600;">Rp 650.000</div>
+                        <div class="label">per unit</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Area B -->
+            <div class="area-card area-b" onclick="showAreaInfo('B')">
+                <div class="area-card-icon"><i class="fa fa-campground"></i></div>
+                <h5>Area B — Tenda Pondok</h5>
+                <p class="subtitle">Sisi Timur Laut • Dekat Api Unggun</p>
+                <ul class="detail-list">
+                    <li><i class="fa fa-campground"></i> Tipe Pondok + Tenda</li>
+                    <li><i class="fa fa-users"></i> Kapasitas 3-4 Orang</li>
+                    <li><i class="fa fa-bed"></i> Tilam Busa + Selimut &amp; Bantal</li>
+                    <li><i class="fa fa-lightbulb"></i> Lampu Listrik &amp; Colokan</li>
+                    <li><i class="fa fa-restroom"></i> Akses Toilet Terdekat</li>
+                </ul>
+                <div class="area-slots">
+                    <div>
+                        <div class="count">40</div>
+                        <div class="label">Slot Tenda</div>
+                    </div>
+                    <div style="text-align:right;">
+                        <div style="color:#7ed9a8; font-size:0.8rem; font-weight:600;">Rp 250.000</div>
+                        <div class="label">per tenda</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Area C -->
+            <div class="area-card area-c" onclick="showAreaInfo('C')">
+                <div class="area-card-icon"><i class="fa fa-bed"></i></div>
+                <h5>Area C — Tenda Nyaman</h5>
+                <p class="subtitle">Sisi Timur Laut • Dekat Api Unggun</p>
+                <ul class="detail-list">
+                    <li><i class="fa fa-users"></i> Kapasitas 3-4 Orang</li>
+                    <li><i class="fa fa-bed"></i> Tilam Busa + Bantal &amp; Selimut</li>
+                    <li><i class="fa fa-lightbulb"></i> 1 Lampu Camp &amp; Baterai</li>
+                    <li><i class="fa fa-fire"></i> Dekat Area Api Unggun</li>
+                    <li><i class="fa fa-restroom"></i> Akses Toilet Terdekat</li>
+                </ul>
+                <div class="area-slots">
+                    <div>
+                        <div class="count">50</div>
+                        <div class="label">Slot Tenda</div>
+                    </div>
+                    <div style="text-align:right;">
+                        <div style="color:#81e6d9; font-size:0.8rem; font-weight:600;">Rp 250.000</div>
+                        <div class="label">per tenda</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Area D -->
+            <div class="area-card area-d" onclick="showAreaInfo('D')">
+                <div class="area-card-icon"><i class="fa fa-map-pin"></i></div>
+                <h5>Area D — Tenda Sedang</h5>
+                <p class="subtitle">Sisi Selatan • Area Terluas</p>
+                <ul class="detail-list">
+                    <li><i class="fa fa-users"></i> Kapasitas 3-4 Orang</li>
+                    <li><i class="fa fa-bed"></i> 3 Matras Standard</li>
+                    <li><i class="fa fa-lightbulb"></i> 1 Lampu Camp &amp; Baterai</li>
+                    <li><i class="fa fa-child"></i> Dekat Area Bermain Anak</li>
+                    <li><i class="fa fa-restroom"></i> 1 Blok Toilet Khusus</li>
+                </ul>
+                <div class="area-slots">
+                    <div>
+                        <div class="count">40</div>
+                        <div class="label">Slot Tenda</div>
+                    </div>
+                    <div style="text-align:right;">
+                        <div style="color:var(--gold); font-size:0.8rem; font-weight:600;">Rp 200.000</div>
+                        <div class="label">per tenda</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </main><!-- /main-content -->
+
+    <!-- Info Panel (global overlay for map clicks) -->
+    <div class="info-panel" id="infoPanel">
+        <span class="info-panel-close" onclick="closeInfo()"><i class="fa fa-times"></i></span>
+        <h6 id="infoPanelTitle">—</h6>
+        <div id="infoPanelContent"></div>
+    </div>
+
+    <script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // ======= Map Zoom =======
+        var currentScale = 1;
+        var mapEl = document.getElementById('mainMap');
+
+        function zoomIn() {
+            currentScale = Math.min(currentScale + 0.2, 2.5);
+            mapEl.style.transform = 'scale(' + currentScale + ')';
+            mapEl.style.transformOrigin = 'top left';
+        }
+        function zoomOut() {
+            currentScale = Math.max(currentScale - 0.2, 0.5);
+            mapEl.style.transform = 'scale(' + currentScale + ')';
+            mapEl.style.transformOrigin = 'top left';
+        }
+        function resetZoom() {
+            currentScale = 1;
+            mapEl.style.transform = 'scale(1)';
+        }
+
+        // ======= Info Panel =======
+        var areaData = {
+            'A': {
+                title: '🏠 Area A — New Cabin',
+                content: [
+                    { icon: 'fa-home', text: '20 unit kabin privat premium' },
+                    { icon: 'fa-users', text: 'Kapasitas Max 4 orang per unit' },
+                    { icon: 'fa-bath', text: 'Kamar mandi privat, Water heater, Kipas' },
+                    { icon: 'fa-bolt', text: 'Teko listrik, Panggangan, Kopi & Teh' },
+                    { icon: 'fa-tag', text: 'Harga: Rp 650.000 / unit' }
+                ]
+            },
+            'B': {
+                title: '⛺ Area B — Tenda Pondok',
+                content: [
+                    { icon: 'fa-campground', text: '40 slot Tenda Pondok (Tipe Pondok + Tenda)' },
+                    { icon: 'fa-users', text: 'Kapasitas 3-4 orang per tenda' },
+                    { icon: 'fa-bed', text: 'Tilam busa, selimut & bantal busa' },
+                    { icon: 'fa-bolt', text: 'Lampu listrik & colokan listrik' },
+                    { icon: 'fa-tag', text: 'Harga: Rp 250.000 / tenda' }
+                ]
+            },
+            'C': {
+                title: '⛺ Area C — Tenda Nyaman',
+                content: [
+                    { icon: 'fa-bed', text: '50 slot Tenda Nyaman (Standard plus)' },
+                    { icon: 'fa-users', text: 'Kapasitas 3-4 orang per tenda' },
+                    { icon: 'fa-bed', text: 'Tilam busa, selimut & bantal busa' },
+                    { icon: 'fa-lightbulb', text: '1 Lampu camp & baterai' },
+                    { icon: 'fa-tag', text: 'Harga: Rp 250.000 / tenda' }
+                ]
+            },
+            'D': {
+                title: '⛺ Area D — Tenda Sedang',
+                content: [
+                    { icon: 'fa-campground', text: '40 slot tenda ukuran sedang' },
+                    { icon: 'fa-users', text: 'Kapasitas 3-4 orang per tenda' },
+                    { icon: 'fa-bed', text: '3 Matras & 1 Lampu camp/baterai' },
+                    { icon: 'fa-child', text: 'Dekat area bermain anak' },
+                    { icon: 'fa-tag', text: 'Harga: Rp 200.000 / tenda' }
+                ]
+            }
+        };
+
+
+        function buildInfoContent(items) {
+            return items.map(function(item) {
+                return '<div class="ib"><i class="fa ' + item.icon + '"></i><span>' + item.text + '</span></div>';
+            }).join('');
+        }
+
+        function showAreaInfo(area) {
+            var data = areaData[area];
+            if (!data) return;
+            document.getElementById('infoPanelTitle').textContent = data.title;
+            document.getElementById('infoPanelContent').innerHTML = buildInfoContent(data.content);
+            document.getElementById('infoPanel').classList.add('visible');
+        }
+
+
+        function closeInfo() {
+            document.getElementById('infoPanel').classList.remove('visible');
+        }
+
+        // Click outside to close
+        document.addEventListener('click', function(e) {
+            var panel = document.getElementById('infoPanel');
+            if (panel.classList.contains('visible') &&
+                !e.target.closest('#infoPanel') &&
+                !e.target.closest('.map-area') &&
+                !e.target.closest('[onclick]')) {
+                closeInfo();
+            }
+        });
+    </script>
+</body>
+</html>
